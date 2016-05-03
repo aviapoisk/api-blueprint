@@ -120,6 +120,10 @@ HOST: http://polls.neverbet.kz/
             + red: 0 (number) - красные карты
         + corners: 2  (number) - угловые
     + odds - ставки
+    + bets - статистика ставок
+        + gamers: (Array) - мнение игроков
+        + books: (Array) - мнение биукмеккров
+        + stats: (Array) - мнение по статистике
     + text: (Array) - текстовая трансляция - [минута, номер команды, событие, игрок]. События: SW-замена, YC-желтая карта, RC-красная карта, CR- угловой, GL-гол, PT-пенналти, AG-автогол,DN - удаление
     + feeds: (Array)
         + author: (User)
@@ -181,6 +185,23 @@ HOST: http://polls.neverbet.kz/
                     "2.5":[1.2,3.2]
                 }
             },
+            "bets":{
+                "gamers":[
+                    [75,"Барселона выиграет"],
+                    [15,"Рома выиграет"],
+                    [12,"Ничья"]
+                ],
+                "books":[
+                    [75,"Победа первой"],
+                    [55,"Тотал > 2.5"],
+                    [23,"Ничья"]
+                ],
+                "stats":[
+                    [75,"Барселона выиграет"],
+                    [55,"Рома выиграет"],
+                    [23,"Ничья"]
+                ]
+            },
             "text":[
                 [79,2,"SW","Набиль Эль-Жар","Давид Симон"],
                 [76,2,"SW","Серхио Араухо","Тана Домингес"],
@@ -203,6 +224,30 @@ HOST: http://polls.neverbet.kz/
             ]
         }   
 
+## Ставки на матч [/game/{game_id}/odds]
+
++ id: 12 (number) - ID команды.
++ name: Барселона (string) - название команды на русском.
++ translit: barcelona (string) - транслит команды для URL.
++ country: ES (string len=2) - IATA код страны команды.
++ logo: //img.neverbet.kz/barcelona.png (string) - ссылка на лого команды.
+
+### Описание команды [GET]
++ Parameters
+    + game_id: 12 (required, number) - ID команды integer
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id" : 12,
+                "name": "Барселона",
+                "translit": "barselona",
+                "country": "ES",
+                "logo": "//img.neverbet.kz/barcelona.png",
+            }   
+        ]
+        
 ## Команда [/team/{team_id}]
 
 + id: 12 (number) - ID команды.
