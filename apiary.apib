@@ -5,47 +5,85 @@ HOST: http://polls.neverbet.kz/
 
 Документация по API 
 
-## Список матчей на сегодня [/games]
+## Список матчей [/games/{?date}]
 
-+ status: wait (string) - wait live cancel fin
-+ home: 22 (number) - название команды на русском.
-+ home_name: Барселона (string) - название команды на русском.
-+ guest: 21 (number) - код команды.
-+ guest_name: Рома (string) - название команды гостей на русском.
-+ time: 2016-02-05 20:00:00 (date) - время проведения матча в формате YY-mm-dd H:m:s (? timezone UTC).
-+ turnir: 21 (number) - код турнира.
++ turnir: 
+    + id: 21 (number) - ID турнира.
+    + name: Примера (string) - название турнира
+    + country: ES (string) - страна турнира
++ games:
+    + id: 11 (number) - ID матча.
+    + time: 2016.02.05 20:00:00 (date) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
+    + status: wait (string) - wait, live, cancel, fin
+    + info:
+        + score: 3-2 (string) - счет матча
+        + part: 2 (number) - тайм
+        + minute: 86 (number) - минута матча
+    + home:  - первая команда
+        + id: 22 (number) - ID команды.
+        + name: Барселона (string) - название команды на русском.
+        + logo: //img.neverbet.kz/barcelona.png (string) -  ссылка на лого команды.
+        + country: ES (string len=2) - IATA код страны команды.
+        + cards - карточки
+            + yellow: 2 (number) - желтые карты
+            + red: 0 (number) - красные карты
+        + corners: 2  (number) - угловые
+    + guest:  - вторая команда
+        + id: 21 (number) - ID команды.
+        + name: Рома (string) - название команды на русском.
+        + logo: //img.neverbet.kz/roma.png (string) -  ссылка на лого команды.
+        + country: IT (string len=2) - IATA код страны команды.
+        + cards - карточки
+            + yellow: 2 (number) - желтые карты
+            + red: 0 (number) - красные карты
+        + corners: 2  (number) - угловые
 
-### Список матчей на сегодня [GET]
-
+### Список матчей [GET]
++ Parameters
+    + date: 2016.04.15 (optional, string) - ID команды integer
 + Response 200 (application/json)
 
         [
             {
-                "status" : "wait",
-                "home": 22,
-                "home_name": "Барселона",
-                "guest": 21,
-                "guest_name": "Рома",
-                "time": "2016-02-05 20:00:00",
-                "turnir": 1
+                "turnir": {
+                    "id": 1,
+                    "name": "Примера",
+                    "country": "ES"
+                },
+                "games":[
+                    {
+                        "id": 11,
+                        "time": "2016-02-05 20:00:00",
+                        "status" : "live",
+                        "info":{
+                            "score": "3-0",
+                            "part": 2,
+                            "minute": 86
+                        },
+                        "home":{
+                            "id": 22,
+                            "name": "Барселона",
+                            "country": "ES",
+                            "cards":{
+                                "yellow":2,
+                                "red":0
+                            },
+                            "corners": 2
+                        },
+                        "guest": {
+                            "id":21,
+                            "name": "Рома",
+                            "country": "ES",
+                            "cards":{
+                                "yellow":4,
+                                "red":1
+                            },
+                            "corners": 12
+                        }
+                    }
+                ]
             }   
         ]
-## Список матчей на опредленную дату [/games/{date}]
-
-+ status: wait (string) - статус игры wait, live, cancel, fin
-+ home:  - первая команда
-    + id: 22 (number) - название команды на русском.
-    + name: Барселона (string) - название команды на русском.
-    + logo: //img.neverbet.kz/barcelona.png (string) -  ссылка на лого команды.
-    + country: ES (string len=2) - IATA код страны команды.
-+ guest:  - вторая команда
-    + id: 21 (number) - код команды.
-    + name: Рома (string) - название команды на русском.
-    + logo: //img.neverbet.kz/roma.png (string) -  ссылка на лого команды.
-    + country: IT (string len=2) - IATA код страны команды.
-+ time: 2016-02-05 20:00:00 (date) - время проведения матча в формате YY-mm-dd H:m:s (? timezone UTC).
-+ turnir: 21 (number) - код турнира.
-
 
 ## Команда [/team/{team_id}]
 
