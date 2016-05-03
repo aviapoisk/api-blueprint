@@ -1,0 +1,72 @@
+FORMAT: 1A
+HOST: http://polls.neverbet.kz/
+
+# NeverBet
+
+Документация по API 
+
+## Список матчей на сегодня [/games]
+
++ status: wait (string) - wait live cancel fin
++ home: 22 (number) - название команды на русском.
++ home_name: Барселона (string) - название команды на русском.
++ guest: 21 (number) - код команды.
++ guest_name: Рома (string) - название команды гостей на русском.
++ time: 2016-02-05 20:00:00 (date) - время проведения матча в формате YY-mm-dd H:m:s (? timezone UTC).
++ turnir: 21 (number) - код турнира.
+
+### Список матчей на сегодня [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "status" : "wait",
+                "home": 22,
+                "home_name": "Барселона",
+                "guest": 21,
+                "guest_name": "Рома",
+                "time": "2016-02-05 20:00:00",
+                "turnir": 1
+            }   
+        ]
+## Список матчей на опредленную дату [/games/{date}]
+
++ status: wait (string) - статус игры wait, live, cancel, fin
++ home:  - первая команда
+    + id: 22 (number) - название команды на русском.
+    + name: Барселона (string) - название команды на русском.
+    + logo: //img.neverbet.kz/barcelona.png (string) -  ссылка на лого команды.
+    + country: ES (string len=2) - IATA код страны команды.
++ guest:  - вторая команда
+    + id: 21 (number) - код команды.
+    + name: Рома (string) - название команды на русском.
+    + logo: //img.neverbet.kz/roma.png (string) -  ссылка на лого команды.
+    + country: IT (string len=2) - IATA код страны команды.
++ time: 2016-02-05 20:00:00 (date) - время проведения матча в формате YY-mm-dd H:m:s (? timezone UTC).
++ turnir: 21 (number) - код турнира.
+
+
+## Команда [/team/{team_id}]
+
++ id: 12 (number) - ID команды.
++ name: Барселона (string) - название команды на русском.
++ translit: barcelona (string) - транслит команды для URL.
++ country: ES (string len=2) - IATA код страны команды.
++ logo: //img.neverbet.kz/barcelona.png (string) - ссылка на лого команды.
+
+### Описание команды [GET]
++ Parameters
+    + team_id: 12 (required, number) - ID команды integer
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id" : 12,
+                "name": "Барселона",
+                "translit": "barselona",
+                "country": "ES",
+                "logo": "//img.neverbet.kz/barcelona.png",
+            }   
+        ]
