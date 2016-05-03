@@ -7,7 +7,7 @@ HOST: http://polls.neverbet.kz/
 
 ## Список матчей [/games/{?date}]
 
-+ turnir: 
++ turnir:  (Turnir)
     + id: 21 (number) - ID турнира.
     + name: Примера (string) - название турнира
     + country: ES (string) - страна турнира
@@ -19,7 +19,7 @@ HOST: http://polls.neverbet.kz/
         + score: 3-2 (string) - счет матча
         + part: 2 (number) - тайм
         + minute: 86 (number) - минута матча
-    + home:  - первая команда
+    + home: (Team) - первая команда
         + id: 22 (number) - ID команды.
         + name: Барселона (string) - название команды на русском.
         + logo: //img.neverbet.kz/barcelona.png (string) -  ссылка на лого команды.
@@ -28,7 +28,7 @@ HOST: http://polls.neverbet.kz/
             + yellow: 2 (number) - желтые карты
             + red: 0 (number) - красные карты
         + corners: 2  (number) - угловые
-    + guest:  - вторая команда
+    + guest: (Team) - вторая команда
         + id: 21 (number) - ID команды.
         + name: Рома (string) - название команды на русском.
         + logo: //img.neverbet.kz/roma.png (string) -  ссылка на лого команды.
@@ -53,7 +53,7 @@ HOST: http://polls.neverbet.kz/
                 "games":[
                     {
                         "id": 11,
-                        "time": "2016-02-05 20:00:00",
+                        "time": "2016.02.05 20:00:00",
                         "status" : "live",
                         "info":{
                             "score": "3-0",
@@ -84,6 +84,124 @@ HOST: http://polls.neverbet.kz/
                 ]
             }   
         ]
+
+## Матч [/game/{id}]
+
++ turnir: 
+    + id: 21 (number) - ID турнира.
+    + name: Примера (string) - название турнира
+    + country: ES (string) - страна турнира
++ games:
+    + id: 11 (number) - ID матча.
+    + time: 2016.02.05 20:00:00 (date) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
+    + status: wait (string) - wait, live, cancel, fin
+    + info:
+        + score: 3-2 (string) - счет матча
+        + part: 2 (number) - тайм
+        + minute: 86 (number) - минута матча
+        + place: Сюьдад де Валенсия (string) - стадион
+        + judges: (Array) - судьи  матча
+    + home: (Team) - первая команда
+        + id: 22 (number) - ID команды.
+        + name: Барселона (string) - название команды на русском.
+        + logo: //img.neverbet.kz/barcelona.png (string) -  ссылка на лого команды.
+        + country: ES (string len=2) - IATA код страны команды.
+        + cards - карточки
+            + yellow: 2 (number) - желтые карты
+            + red: 0 (number) - красные карты
+        + corners: 2  (number) - угловые
+    + guest: (Team) - вторая команда
+        + id: 21 (number) - ID команды.
+        + name: Рома (string) - название команды на русском.
+        + logo: //img.neverbet.kz/roma.png (string) -  ссылка на лого команды.
+        + country: IT (string len=2) - IATA код страны команды.
+        + cards - карточки
+            + yellow: 2 (number) - желтые карты
+            + red: 0 (number) - красные карты
+        + corners: 2  (number) - угловые
+    + odds - ставки
+    + text: (Array) - текстовая трансляция - [минута, номер команды, событие, игрок]. События: SW-замена, YC-желтая карта, RC-красная карта, CR- угловой, GL-гол, PT-пенналти, AG-автогол,DN - удаление
+    + feeds: (Array)
+        + author: (User)
+            + id: 123 (number) - ID автора
+            + name: Костян Филатов (string) - ФИО автора
+            + logo: //img.neverbet.kz/user/123 (string) -
+            + rate: 33 (number) - рейтинг пользователя
+        + rate: 3 (number) - оценка
+        + comments: 12 (number) - кол-во комментов
+
+### Описание матча [GET]
++ Parameters
+    + id: 11 (required, integer) - ID матча 
++ Response 200 (application/json)
+
+        {
+            "id": 11,
+            "time": "2016.02.05 20:00:00",
+            "status" : "live",
+            "turnir": {
+                "id": 1,
+                "name": "Примера",
+                "country": "ES"
+            },
+            "info":{
+                "score": "3-2",
+                "part": 2,
+                "minute": 86,
+                "place": "Сюьдад де Валенсия",
+                "judges":[
+                    "Карлос Веласко Карбальо"
+                ]
+            },
+            "home":{
+                "id": 22,
+                "name": "Барселона",
+                "country": "ES",
+                "cards":{
+                    "yellow":2,
+                    "red":0
+                },
+                "corners": 2
+            },
+            "guest": {
+                "id":21,
+                "name": "Рома",
+                "country": "ES",
+                "cards":{
+                    "yellow":4,
+                    "red":1
+                },
+                "corners": 12
+            },
+            "odds":{
+                "p1": 1.2,
+                "x": 2.2,
+                "p2": 2.0,
+                "total": {
+                    "2.5":[1.2,3.2]
+                }
+            },
+            "text":[
+                [79,2,"SW","Набиль Эль-Жар","Давид Симон"],
+                [76,2,"SW","Серхио Араухо","Тана Домингес"],
+                [75,1,"SW","Джузеппе Росси","Жорди Шуметра"],
+                [74,1,"YC","Жорди Шуметра"],
+                [66,2,"GL","Виллиан Жозе"]
+            ],
+            "feeds":[
+                {
+                    "author":{
+                        "id": 123,
+                        "name": "Костян Филатов",
+                        "logo": "//img.neverbet.kz/user/123",
+                        "rate": 33
+                    },
+                    "msg":"Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+                    "rate": 3,
+                    "comments":12
+                }
+            ]
+        }   
 
 ## Команда [/team/{team_id}]
 
