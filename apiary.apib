@@ -1,44 +1,53 @@
 FORMAT: 1A
-HOST: http://polls.neverbet.kz/
+HOST: http://polls.neverbet.com/
 
 # NeverBet
+Документация по API 1.0 для мобильного приложения
 
-Документация по API 
+# Group Матч-Центр
+Информация о играх
 
 ## Список матчей [/games/{?date}]
+Получение списка матчей на определенную дату. Если дата не указана, то список игр на сегодня
 
-+ turnir:  (Turnir)
-    + id: 21 (number) - ID турнира.
-    + name: Примера (string) - название турнира
-    + country: ES (string) - страна турнира
-+ games:
-    + id: 11 (number) - ID матча.
-    + time: 2016.02.05 20:00:00 (date) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
-    + status: wait (string) - wait, live, cancel, fin
-    + info:
-        + score: 3-2 (string) - счет матча
-        + part: 2 (number) - тайм
-        + minute: 86 (number) - минута матча
-    + home: (Team) - первая команда
-        + id: 22 (number) - ID команды.
-        + name: Барселона (string) - название команды на русском.
-        + logo: //img.neverbet.kz/barcelona.png (string) -  ссылка на лого команды.
-        + country: ES (string len=2) - IATA код страны команды.
-        + cards - карточки
-            + yellow: 2 (number) - желтые карты
-            + red: 0 (number) - красные карты
-        + corners: 2  (number) - угловые
-    + guest: (Team) - вторая команда
-        + id: 21 (number) - ID команды.
-        + name: Рома (string) - название команды на русском.
-        + logo: //img.neverbet.kz/roma.png (string) -  ссылка на лого команды.
-        + country: IT (string len=2) - IATA код страны команды.
-        + cards - карточки
-            + yellow: 2 (number) - желтые карты
-            + red: 0 (number) - красные карты
-        + corners: 2  (number) - угловые
-
-### Список матчей [GET]
+### Получение списка [GET]
++ Arguments
+    + turnir:  (Turnir)
+        + id: 21 (number) - ID турнира.
+        + name: Примера (string) - название турнира
+        + country: ES (string) - страна турнира
+    + games:
+        + id: 11 (number) - ID матча.
+        + dtime: 2016.02.05 20:00:00 (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
+        + status: wait (string) - wait, live, cancel, fin
+        + info:
+            + score: 3-2 (string) - счет матча
+            + part: 2 (number) - тайм
+            + minute: 86 (number) - минута матча
+        + home: (Team) - первая команда
+            + id: 22 (number) - ID команды.
+            + name: Барселона (string) - название команды на русском.
+            + logo: //img.neverbet.com/barcelona.png (string) -  ссылка на лого команды.
+            + country: ES (string len=2) - IATA код страны команды.
+            + cards - карточки
+                + yellow: 2 (number) - желтые карты
+                + red: 0 (number) - красные карты
+            + corners: 2  (number) - угловые
+        + guest: (Team) - вторая команда
+            + id: 21 (number) - ID команды.
+            + name: Рома (string) - название команды на русском.
+            + logo: //img.neverbet.com/roma.png (string) -  ссылка на лого команды.
+            + country: IT (string len=2) - IATA код страны команды.
+            + cards - карточки
+                + yellow: 2 (number) - желтые карты
+                + red: 0 (number) - красные карты
+            + corners: 2  (number) - угловые
+        + odds - ставки / коэффициенты
+            + P1 : 1.2 (float) - победа первой команды 
+            + X: 2.2 (float) - ничья 
+            + P2: 2.0 (float) - победа второй команды 
+            + TOTAL: (Object)  - тотал
+                "2.5": (Array[2]) - значение [больше чем значение, меньше чем значение] 
 + Parameters
     + date: 2016.04.15 (optional, string) - ID команды integer
 + Response 200 (application/json)
@@ -53,7 +62,7 @@ HOST: http://polls.neverbet.kz/
                 "games":[
                     {
                         "id": 11,
-                        "time": "2016.02.05 20:00:00",
+                        "dtime": "2016.02.05 20:00:00",
                         "status" : "live",
                         "info":{
                             "score": "3-0",
@@ -79,62 +88,81 @@ HOST: http://polls.neverbet.kz/
                                 "red":1
                             },
                             "corners": 12
+                        },
+                        "odds":{
+                            "P1": 1.2,
+                            "X": 2.2,
+                            "P2": 2.0,
+                            "TOTAL": {
+                                "2.5":[1.2,3.2]
+                            }
                         }
                     }
                 ]
             }   
         ]
 
-## Матч [/game/{id}]
-
-+ turnir: 
-    + id: 21 (number) - ID турнира.
-    + name: Примера (string) - название турнира
-    + country: ES (string) - страна турнира
-+ games:
-    + id: 11 (number) - ID матча.
-    + time: 2016.02.05 20:00:00 (date) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
-    + status: wait (string) - wait, live, cancel, fin
-    + info:
-        + score: 3-2 (string) - счет матча
-        + part: 2 (number) - тайм
-        + minute: 86 (number) - минута матча
-        + place: Сюьдад де Валенсия (string) - стадион
-        + judges: (Array) - судьи  матча
-    + home: (Team) - первая команда
-        + id: 22 (number) - ID команды.
-        + name: Барселона (string) - название команды на русском.
-        + logo: //img.neverbet.kz/barcelona.png (string) -  ссылка на лого команды.
-        + country: ES (string len=2) - IATA код страны команды.
-        + cards - карточки
-            + yellow: 2 (number) - желтые карты
-            + red: 0 (number) - красные карты
-        + corners: 2  (number) - угловые
-    + guest: (Team) - вторая команда
-        + id: 21 (number) - ID команды.
-        + name: Рома (string) - название команды на русском.
-        + logo: //img.neverbet.kz/roma.png (string) -  ссылка на лого команды.
-        + country: IT (string len=2) - IATA код страны команды.
-        + cards - карточки
-            + yellow: 2 (number) - желтые карты
-            + red: 0 (number) - красные карты
-        + corners: 2  (number) - угловые
-    + odds - ставки
-    + bets - статистика ставок
-        + gamers: (Array) - мнение игроков
-        + books: (Array) - мнение биукмеккров
-        + stats: (Array) - мнение по статистике
-    + text: (Array) - текстовая трансляция - [минута, номер команды, событие, игрок]. События: SW-замена, YC-желтая карта, RC-красная карта, CR- угловой, GL-гол, PT-пенналти, AG-автогол,DN - удаление
-    + feeds: (Array)
-        + author: (User)
-            + id: 123 (number) - ID автора
-            + name: Костян Филатов (string) - ФИО автора
-            + logo: //img.neverbet.kz/user/123 (string) -
-            + rate: 33 (number) - рейтинг пользователя
-        + rate: 3 (number) - оценка
-        + comments: 12 (number) - кол-во комментов
+## Обзор матча [/game/{id}]
+Информация по определенному матчу
 
 ### Описание матча [GET]
++ Arguments
+    + turnir: 
+        + id: 21 (number) - ID турнира.
+        + name: Примера (string) - название турнира
+        + country: ES (string) - страна турнира
+    + games:
+        + id: 11 (number) - ID матча.
+        + dtime: 2016.02.05 20:00:00 (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
+        + status: wait (string) - wait, live, cancel, fin
+        + info:
+            + score: 3-2 (string) - счет матча
+            + part: 2 (number) - тайм
+            + minute: 86 (number) - минута матча
+            + place: Сюьдад де Валенсия (string) - стадион
+            + judges: (Array) - судьи  матча
+        + home: (Team) - первая команда
+            + id: 22 (number) - ID команды.
+            + name: Барселона (string) - название команды на русском.
+            + logo: //img.neverbet.com/barcelona.png (string) -  ссылка на лого команды.
+            + country: ES (string len=2) - IATA код страны команды.
+            + cards - карточки
+                + yellow: 2 (number) - желтые карты
+                + red: 0 (number) - красные карты
+            + corners: 2  (number) - угловые
+        + guest: (Team) - вторая команда
+            + id: 21 (number) - ID команды.
+            + name: Рома (string) - название команды на русском.
+            + logo: //img.neverbet.com/roma.png (string) -  ссылка на лого команды.
+            + country: IT (string len=2) - IATA код страны команды.
+            + cards - карточки
+                + yellow: 2 (number) - желтые карты
+                + red: 0 (number) - красные карты
+            + corners: 2  (number) - угловые
+        + odds - ставки / коэффициенты
+            + P1 : 1.2 (float) - победа первой команды 
+            + X: 2.2 (float) - ничья 
+            + P2: 2.0 (float) - победа второй команды 
+            + TOTAL: (Object)  - тотал
+                "2.5": (Array[2]) - значение [больше чем значение, меньше чем значение] 
+        + bets - статистика ставок
+            + gamers: (Array) - мнение игроков
+            + books: (Array) - мнение биукмеккров
+            + stats: (Array) - мнение по статистике
+        + text: (Array) - текстовая трансляция 
+            + [минута, номер команды, событие, игрок]. События: SW-замена, YC-желтая карта, RC-красная карта, CR- угловой, GL-гол, PT-пенналти, AG-автогол,DN - удаление
+        + feeds: (Array) - массив публикаций
+            + id: 12 (number) - ID номер публикации 
+            + author: (Author) - автор публикации
+                + type: owner (string) - тип авторства: owner - владелец, repost - перепубликации
+                + id: 12 (number) - ID автора
+                + rate: 33 (number) - рейтинг авторa
+                + name: Костян Филатов (string) - имя автора
+                + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+            + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+            + comments: 12 (number) - кол-во комментариев к публикации
+            + rate: 3 (number) - рейтинг публикации
+            + body: (string) - сообщение
 + Parameters
     + id: 11 (required, integer) - ID матча 
 + Response 200 (application/json)
@@ -211,27 +239,33 @@ HOST: http://polls.neverbet.kz/
             ],
             "feeds":[
                 {
+                    "id": 1235,
                     "author":{
-                        "id": 123,
-                        "name": "Костян Филатов",
-                        "logo": "//img.neverbet.kz/user/123",
-                        "rate": 33
+                        "type":"owner",
+                        "id":56,
+                        "rate":33,
+                        "name":"Костян Филатов",
+                        "thumb":"//img.neverbet.com/user/u56.jpg"
                     },
-                    "msg":"Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
-                    "rate": 3,
-                    "comments":12
+                    "dtime": "2016.01.05 20:30",
+                    "comments":12,
+                    "rate":3,
+                    "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
                 }
             ]
         }   
 
-## Текстовая трансляция матча [/game/{game_id}/text]
-
-+ (number) - минута.
-+ (number) - номер команды
-+ (string) - тип события.
-+ (string) - имя игрока.
+## События матча [/game/{game_id}/text]
+Получение текстовой трансляции матча - замены, голы, карточки 
 
 ### Трансляция матча [GET]
++ Argumnets
+    + (Array)
+        + (number) - минута матчка.
+        + (number) - номер команды
+        + (string) - тип события.
+        + (string) - ФИО игрока.
+        
 + Parameters
     + game_id: 12 (required, number) - ID команды integer
 
@@ -245,14 +279,22 @@ HOST: http://polls.neverbet.kz/
             [66,2,"GL","Виллиан Жозе"]
         ]
 
-## Статистика матча [/game/{game_id}/stats]
-
-+ (number) - минута.
-+ (number) - номер команды
-+ (string) - тип события.
-+ (string) - имя игрока.
+## Статистика [/game/{game_id}/stats]
+Получение статистики о предыдущих играх команд
 
 ### Статистика [GET]
++ Argumnets
+    + main: - основная статистика
+        + (string) : (Array[2]) - заголовок строки : [значение хозеяв, значение для гостей]
+    + groups: (Array) - дополнительная статистика
+        + name: "Послдение игры Леванте" (string)  - название группы
+        + type: (string) "tab" - тип группы. Может быть 3 типов - list,tabs и table 
+        + tabs: (Array) - только если тип tab
+            + name: "В сезоне"(string) - название таба
+            + rows: (Array) - строки в табе
+                + (Array[5]) - [id матча, дата, название команды 1, счет, название команды 2]
+        +table: (Array) - только если тип table
+            + (Array[10]) - [id команды, код страны, название команды, всего игр, выйграно, ничьи, проиграно, голов забито, голов пропущенно, очков]
 + Parameters
     + game_id: 12 (required, number) - ID команды integer
 
@@ -273,19 +315,19 @@ HOST: http://polls.neverbet.kz/
                         {
                             "name":"В сезоне",
                             "rows":[
-                                ["2016.01.05","Вестерн Сити","1:0","Леванте"],
-                                ["2016.02.07","Леванте","3:2","Арсенал"],
-                                ["2016.03.15","Арсенал","2:0","Леванте"],
-                                ["2016.04.23","Вестерн Сити","3:1","Леванте"]
+                                [123,"2016.01.05","Вестерн Сити","1:0","Леванте"],
+                                [125,"2016.02.07","Леванте","3:2","Арсенал"],
+                                [126,"2016.03.15","Арсенал","2:0","Леванте"],
+                                [77,"2016.04.23","Вестерн Сити","3:1","Леванте"]
                             ]
                         },
                         {
                             "name":"В турнире",
                             "rows":[
-                                ["2016.01.05","Вестерн Сити","1:0","Леванте"],
-                                ["2016.02.07","Леванте","3:2","Арсенал"],
-                                ["2016.03.15","Арсенал","2:0","Леванте"],
-                                ["2016.04.23","Вестерн Сити","3:1","Леванте"]
+                                [12,"2016.01.05","Вестерн Сити","1:0","Леванте"],
+                                [23,"2016.02.07","Леванте","3:2","Арсенал"],
+                                [56,"2016.03.15","Арсенал","2:0","Леванте"],
+                                [18,"2016.04.23","Вестерн Сити","3:1","Леванте"]
                             ]
                         }
                     ]
@@ -294,61 +336,62 @@ HOST: http://polls.neverbet.kz/
                     "name": "Турнирная таблица",
                     "type": "table",
                     "table":[
-                        ["ES","Вестерн Сити",16,9,3,4,16,9,30],
-                        ["ES","Леванте",16,9,3,4,16,9,28],
-                        ["ES","Арсенал",16,9,3,4,16,9,27],
-                        ["ES","Вестерн Сити",16,9,3,4,16,9,20],
-                        ["ES","Арсенал",16,9,3,4,16,9,19],
-                        ["ES","Леванте Сити",16,9,3,4,16,9,6]
+                        [223,"ES","Вестерн Сити",16,9,3,4,16,9,30],
+                        [125,"ES","Леванте",16,9,3,4,16,9,28],
+                        [34,"ES","Арсенал",16,9,3,4,16,9,27],
+                        [567,"ES","Вестерн Сити",16,9,3,4,16,9,20],
+                        [12,"ES","Арсенал",16,9,3,4,16,9,19],
+                        [67,"ES","Леванте Сити",16,9,3,4,16,9,6]
                     ]
                 },
             ]
         }
         
 
-## Составы матча [/game/{game_id}/list]
-
-+ coach - главный тренер.
-    + home: (string) - тренер домашней команды
-    + guest: (string) - тренер гостевой команды
-+ in - Стартовые составы
-    + home:(Array) - домашней команды - [ номер игрока, имя игрока, позиция]
-    + guest:(Array) - гостевой команды - [ номер игрока, имя игрока, позиция]
-+ substitution - Замены
-    + home:(Array) - домашней команды - [ номер игрока, имя игрока, позиция]
-    + guest:(Array) - гостевой команды - [ номер игрока, имя игрока, позиция]
-+ injury - Травмированы / Точно не сыграют
-    + home:(Array) - домашней команды - [ номер игрока, имя игрока, позиция]
-    + guest:(Array) - гостевой команды - [ номер игрока, имя игрока, позиция]
-    
-
-Значение позиции игроков:
-C - Capitane ( капитан )
-GK  - Goalkeeper ( вратарь )  
-SW  - Free Defender ( свободный защитник ) 
-RB  - Right Defender ( правый защитник ) 
-LB  - Left Defender ( левый защитник ) 
-CB  - Central Defender ( центр защитник ) 
-RWB  - Right Attacking Defender ( правый атакующий защитник ) 
-LWB  - Left Attacking Defender ( левый атакующий защитник ) 
-CDM  - Central Defensive Midfielder ( опорный/оборонительный полузащитник ) 
-RM  - Right Midfielder ( правый полузащитник ) 
-CM  - Central Midfielder ( центральный полузащитник ) 
-LM  - Left Midfielder   ( левый полузащитник ) 
-RWM  - Right Side Midfielder ( правый атакующий полузащитник ) 
-LWM  -   Left Side Midfielder ( левый атакующий полузащитник ) 
-CAM  - Central Attacking Midfielder ( центральный атакующий полузащитник ) 
-RF  - Right Forward ( правый отянутый форвард ) 
-CF  - Central Forward ( центральный отянутый форвард ) 
-LF  - Left Forward ( левый отянутый форвард ) 
-RS  - Right Striker ( правый конечный форвард ) 
-LS  - Left Striker ( левый конечный форвард )
-ST  - Striker ( центр форвард )
+## Составы [/game/{game_id}/list]
+Информация о составах команд
 
 ### Состав [GET]
++ Arguments
+    + coach - главный тренер.
+        + home: (string) - тренер домашней команды
+        + guest: (string) - тренер гостевой команды
+    + in - Стартовые составы
+        + home:(Array) - домашней команды - [ номер игрока, имя игрока, позиция]
+        + guest:(Array) - гостевой команды - [ номер игрока, имя игрока, позиция]
+    + substitution - Замены
+        + home:(Array) - домашней команды - [ номер игрока, имя игрока, позиция]
+        + guest:(Array) - гостевой команды - [ номер игрока, имя игрока, позиция]
+    + injury - Травмированы / Точно не сыграют
+        + home:(Array) - домашней команды - [ номер игрока, имя игрока, позиция]
+        + guest:(Array) - гостевой команды - [ номер игрока, имя игрока, позиция]
+    + Parameters
+        + game_id: 12 (required, number) - ID команды integer
++ Значение позиции игроков:
+    + C - Capitane ( капитан )
+    + GK  - Goalkeeper ( вратарь )
+    + SW  - Free Defender ( свободный защитник ) 
+    + RB  - Right Defender ( правый защитник ) 
+    + LB  - Left Defender ( левый защитник ) 
+    + CB  - Central Defender ( центр защитник ) 
+    + RWB  - Right Attacking Defender ( правый атакующий защитник ) 
+    + LWB  - Left Attacking Defender ( левый атакующий защитник ) 
+    + CDM  - Central Defensive Midfielder ( опорный/оборонительный полузащитник ) 
+    + RM  - Right Midfielder ( правый полузащитник ) 
+    + CM  - Central Midfielder ( центральный полузащитник ) 
+    + LM  - Left Midfielder   ( левый полузащитник ) 
+    + RWM  - Right Side Midfielder ( правый атакующий полузащитник ) 
+    + LWM  -   Left Side Midfielder ( левый атакующий полузащитник ) 
+    + CAM  - Central Attacking Midfielder ( центральный атакующий полузащитник ) 
+    + RF  - Right Forward ( правый отянутый форвард ) 
+    + CF  - Central Forward ( центральный отянутый форвард ) 
+    + LF  - Left Forward ( левый отянутый форвард ) 
+    + RS  - Right Striker ( правый конечный форвард ) 
+    + LS  - Left Striker ( левый конечный форвард )
+    + ST  - Striker ( центр форвард )
 + Parameters
     + game_id: 12 (required, number) - ID команды integer
-
+    
 + Response 200 (application/json)
 
         {
@@ -359,43 +402,43 @@ ST  - Striker ( центр форвард )
             "in":{
                 "home":[
                     [5,"Набиль Эль-Жар","C"],
-                    [6:"Давид Симон","GK"],
-                    [7:"Серхио Араухо","LB"],
-                    [8:"Джузеппе Росси","LWM"],
-                    [10:"Жорди Шуметра","RS"],
-                    [2:"Виллиан Жозе","ST"]
+                    [6,"Давид Симон","GK"],
+                    [7,"Серхио Араухо","LB"],
+                    [8,"Джузеппе Росси","LWM"],
+                    [10,"Жорди Шуметра","RS"],
+                    [2,"Виллиан Жозе","ST"]
                 ],
                 "guest":[
                     [5,"Набиль Эль-Жар","C"],
-                    [6:"Давид Симон","GK"],
-                    [7:"Серхио Араухо","CAM"],
-                    [8:"Джузеппе Росси","CDM"],
-                    [10:"Жорди Шуметра","CF"],
-                    [2:"Виллиан Жозе","LS"]
+                    [6,"Давид Симон","GK"],
+                    [7,"Серхио Араухо","CAM"],
+                    [8,"Джузеппе Росси","CDM"],
+                    [10,"Жорди Шуметра","CF"],
+                    [2,"Виллиан Жозе","LS"]
                 ]
             },
             "substitution":{
                 "home":[
                     [5,"Набиль Эль-Жар","C"],
-                    [6:"Давид Симон","GK"],
-                    [7:"Серхио Араухо","ST"],
-                    [8:"Джузеппе Росси","D"],
-                    [10:"Жорди Шуметра","P"],
-                    [2:"Виллиан Жозе","W"]
+                    [6,"Давид Симон","GK"],
+                    [7,"Серхио Араухо","ST"],
+                    [8,"Джузеппе Росси","D"],
+                    [10,"Жорди Шуметра","P"],
+                    [2,"Виллиан Жозе","W"]
                 ],
                 "guest":[
                     [5,"Набиль Эль-Жар","CAM"],
-                    [6:"Давид Симон","GK"],
-                    [7:"Серхио Араухо","ST"],
-                    [8:"Джузеппе Росси","D"],
-                    [10:"Жорди Шуметра","GK"],
-                    [2:"Виллиан Жозе","W"]
+                    [6,"Давид Симон","GK"],
+                    [7,"Серхио Араухо","ST"],
+                    [8,"Джузеппе Росси","D"],
+                    [10,"Жорди Шуметра","GK"],
+                    [2,"Виллиан Жозе","W"]
                 ]
             },
             "injury":{
                 "home":[
                     [5,"Набиль Эль-Жар","C"],
-                    [6:"Давид Симон","GK"]
+                    [6,"Давид Симон","GK"]
                 ],
                 "guest":[
                     [5,"Набиль Эль-Жар","C"]
@@ -403,22 +446,24 @@ ST  - Striker ( центр форвард )
             }
         }
 
-## Ставки на матч [/game/{game_id}/odds]
-
-+ P1: (Array) - Победа 1-ой команды - [ [ID букмекера, коэффициент букмекера] ].
-+ Х: (Array) - Ничья - [ [ID букмекера, коэффициент букмекера] ]
-+ Р2:  (Array) - Победа 2-ой команды - [ [ID букмекера, коэффициент букмекера] ]
-+ 1Х: Победа 1-ой команды или ничья - [ [ID букмекера, коэффициент букмекера] ].
-+ groups (Array) - группы ставок
-    + name: Точный счет (string) - название группы
-    ... остальные атрибуты строки в группе. Название атрибута - название строки, значение массив из  [ID букмекера, коэффициент букмекера] 
-    Тотал больше/меньше = [ массив больше , массив меньше ]
-+ books -  букмекеры
-    + id: 12 (number) - ID букмекера 
-    + name: FairPlay (string) - Имя букмекера
-    + logo: //img.neverbet.kz/img.neverbet.kz/books/FairPlay.png (string) - ссылка на лого букмекера.
+## Ставки [/game/{game_id}/odds]
+Информация о ставках и коэффициентах на матч от разных буккмекеров
 
 ### Ставки на матч [GET]
++ Arguments
+    + P1: (Array) - Победа 1-ой команды - [ [ID букмекера, коэффициент букмекера] ].
+    + Х: (Array) - Ничья - [ [ID букмекера, коэффициент букмекера] ]
+    + Р2:  (Array) - Победа 2-ой команды - [ [ID букмекера, коэффициент букмекера] ]
+    + 1Х: Победа 1-ой команды или ничья - [ [ID букмекера, коэффициент букмекера] ].
+    + groups (Array) - группы ставок
+        + name: Точный счет (string) - название группы
+        ... остальные атрибуты строки в группе. Название атрибута - название строки, значение массив из  [ID букмекера, коэффициент букмекера] 
+        Тотал больше/меньше = [ массив больше , массив меньше ]
+    + books -  букмекеры
+        + id: 12 (number) - ID букмекера 
+        + name: FairPlay (string) - Имя букмекера
+        + logo: //img.neverbet.com/img.neverbet.com/books/FairPlay.png (string) - ссылка на лого букмекера.
+        
 + Parameters
     + game_id: 12 (required, number) - ID команды integer
 
@@ -455,30 +500,181 @@ ST  - Striker ( центр форвард )
                 {
                     "id":1,
                     "name":"Olimp",
-                    "logo":"//img.neverbet.kz/books/Olimp.png"
+                    "logo":"//img.neverbet.com/books/Olimp.png"
                 },
                 {
                     "id":2,
                     "name":"LEON",
-                    "logo":"//img.neverbet.kz/books/leon.png"
+                    "logo":"//img.neverbet.com/books/leon.png"
                 },
                 {
                     "id":3,
                     "name":"FairPlay",
-                    "logo":"//img.neverbet.kz/books/FairPlay.png"
+                    "logo":"//img.neverbet.com/books/FairPlay.png"
                 }
             ]
         }
 
-## Команда [/team/{team_id}]
+## Чат [/game/{game_id}/chat]
+Информация о чате матча
 
-+ id: 12 (number) - ID команды.
-+ name: Барселона (string) - название команды на русском.
-+ translit: barcelona (string) - транслит команды для URL.
-+ country: ES (string len=2) - IATA код страны команды.
-+ logo: //img.neverbet.kz/barcelona.png (string) - ссылка на лого команды.
+### Чат [GET]
++ Arguments
+    + id: (number) -  ID чата матча
++ Parameters
+    + game_id: 12 (required, number) - ID команды integer
+
++ Response 200 (application/json)
+
+        {
+            "id": 123
+        }
+
+## Голосование [/game/{game_id}/vote/{?type}]
+Выбор лучшего или худшего игрока матча
+
+### Список игроков [GET]
++ Arguments
+    + home: (Array) -  игроки команды хозяев
+        + (Array[3]) - [ID игрока, имя игрока, позиция игрока]
+    + guest: (Array) - игроки команды гостей
+        + (Array[3]) - [ID игрока, имя игрока, позиция игрока]
++ Parameters
+    + game_id: 12 (required, number) - ID команды integer
+    + type: "best" (required, string) - 2 типа "best" или "worst"
+
++ Response 200 (application/json)
+
+        {
+            "home":[
+                [5,"Набиль Эль-Жар","C"],
+                [6,"Давид Симон","GK"],
+                [7,"Серхио Араухо","LB"],
+                [8,"Джузеппе Росси","LWM"],
+                [10,"Жорди Шуметра","RS"],
+                [2,"Виллиан Жозе","ST"]
+            ],
+            "guest":[
+                [5,"Набиль Эль-Жар","C"],
+                [6,"Давид Симон","GK"],
+                [7,"Серхио Араухо","CAM"],
+                [8,"Джузеппе Росси","CDM"],
+                [10,"Жорди Шуметра","CF"],
+                [2,"Виллиан Жозе","LS"]
+            ]
+        }
+
+### Проголосовать [POST]
++ Parameters
+    + game_id: 12 (required, number) - ID команды integer
+    + type: "best" (required, string) - 2 типа "best" или "worst"
+    + id: 14 (required, number) - ID игрока integer
+
++ Response 200 (application/json)
+
+        {
+            "home":[
+                [5,"Набиль Эль-Жар","C"],
+                [6,"Давид Симон","GK"],
+                [7,"Серхио Араухо","LB"],
+                [8,"Джузеппе Росси","LWM"],
+                [10,"Жорди Шуметра","RS"],
+                [2,"Виллиан Жозе","ST"]
+            ],
+            "guest":[
+                [5,"Набиль Эль-Жар","C"],
+                [6,"Давид Симон","GK"],
+                [7,"Серхио Араухо","CAM"],
+                [8,"Джузеппе Росси","CDM"],
+                [10,"Жорди Шуметра","CF"],
+                [2,"Виллиан Жозе","LS"]
+            ]
+        }
+
+# Group Команда
+
+
+## Список команд [/teams]
+Возвращает список команд по группам
+
+### Список [GET]
++ Arguments
+    + name: Национальные (string) - название группы.
+    + groups: (Array) - список подгрупп
+    + icon: "//img.neverbet.com/country/EN.png" (string) - адрес иконки группы
+    + teams: (Array) - список команд в группе/подгруппе
+        + id: 12 (number) - ID команды.
+        + name: Барселона (string) - название команды на русском.
+        + logo: //img.neverbet.com/mini/barcelona.png (string) - ссылка на лого команды.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "name": "Популярные",
+                "teams":[
+                    {
+                        "id" : 12,
+                        "name": "Барселона",
+                        "logo": "//img.neverbet.com/team/mini/barcelona.png",
+                    }
+                ]
+            },
+            {
+                "name": "Национальные",
+                "groups":[
+                    {
+                        "name": "Англия",
+                        "icon": "//img.neverbet.com/country/EN.png",
+                        "teams":[
+                            {
+                                "id" : 12,
+                                "name": "Барселона",
+                                "logo": "//img.neverbet.com/team/mini/barcelona.png",
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+        
+## Команда [/team/{team_id}]
+Подробное описание команды
 
 ### Описание команды [GET]
++ Arguments
+    + id: 12 (number) - ID команды.
+    + name: Барселона (string) - название команды на русском.
+    + original: Barcelona (string) - оригинальное название команды.
+    + rating: 6.8 (number) - рейтинг команды.
+    + country: ES (string len=2) - IATA код страны команды.
+    + city: Барселона (string) - город в котором базируется команда.
+    + coach: Луис Энрике (string) - тренер команда.
+    + arena: Камп Ноу (string) - домашняя арена команды.
+    + based: 1899.11.23 (Date) - дата основания команды в формате Y.m.d
+    + logo: //img.neverbet.com/team/barcelona.png (string) - ссылка на лого команды.
+    + status: WLDWW (string) - статистика по последним 5 играм. W (win) - побед,  L(lose) - поражений, D(draw) - ничьи.
+    + stats: (Object) - статистика
+        + name (string): value (string) - название : значение
+    + games: (Array) - прошедшие 5 игр команды
+        + id: 12 (number) - ID номер матча 
+        + dtime: 2016.01.05 20:30 (DateTime) - дата и время начала матча в формате Y.m.d H:m 
+        + home: Вестерн Сити (string) - название домашней команды 
+        + score:(string) - счет в матче
+        + guest: (string) - название команды гостей
+    + feeds: (Array) - последние новости/публикации по команде
+        + id: 12 (number) - ID номер публикации 
+        + author: (Author) - автор публикации
+            + type: owner (string) - тип авторства: owner - владелец, repost - перепубликации
+            + id: 12 (number) - ID автора
+            + rate: 33 (number) - рейтинг авторa
+            + name: Костян Филатов (string) - имя автора
+            + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+        + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+        + comments: 12 (number) - кол-во комментариев к публикации
+        + rate: 3 (number) - рейтинг публикации
+        + body: (string) - сообщение
+        
 + Parameters
     + team_id: 12 (required, number) - ID команды integer
 
@@ -488,8 +684,289 @@ ST  - Striker ( центр форвард )
             {
                 "id" : 12,
                 "name": "Барселона",
-                "translit": "barselona",
+                "original": "Barcelona",
+                "rating": 6.8,
                 "country": "ES",
-                "logo": "//img.neverbet.kz/barcelona.png",
+                "city": "Барселона",
+                "coach": "Луис Энрике",
+                "arena": "Камп Ноу",
+                "based": "1899.11.23",
+                "logo": "//img.neverbet.com/team/barcelona.png",
+                "status": "WLDWW",
+                "stats":{
+                    "матчи": 32,
+                    "гол / матч": 1.1,
+                    "желтые карточки": 2,
+                    "красные карточки": 3,
+                    "угловые": 12
+                },
+                "games":[
+                    {
+                        "id":12,
+                        "dtime": "2016.01.05 20:30",
+                        "home":"Вестерн Сити",
+                        "score":"1:0",
+                        "guest":"Леванте"
+                    }
+                ],
+                "feeds":[
+                    {
+                        "id": 1235,
+                        "author":{
+                            "type":"owner",
+                            "id":56,
+                            "rate":33,
+                            "name":"Костян Филатов",
+                            "thumb":"//img.neverbet.com/user/u56.jpg"
+                        },
+                        "dtime": "2016.01.05 20:30",
+                        "comments":12,
+                        "rate":3,
+                        "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+                    }
+                ]
             }   
+        ]
+        
+## Новости [/team/{team_id}/feeds/{offset}]
+Новости/публикации по команде
+
+### Новости команды [GET]
++ Arguments
+    + id: 12 (number) - ID номер публикации 
+    + author: (Author) - автор публикации
+        + type: owner (string) - тип авторства: owner - владелец, repost - перепубликации
+        + id: 12 (number) - ID автора
+        + rate: 33 (number) - рейтинг авторa
+        + name: Костян Филатов (string) - имя автора
+        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+    + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+    + comments: 12 (number) - кол-во комментариев к публикации
+    + rate: 3 (number) - рейтинг публикации
+    + body: (string) - сообщение
+    
++ Parameters
+    + team_id: 12 (required, number) - ID команды integer
+    + offset: 12 (required, number) - отступ для выборки
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1235,
+                "author":{
+                    "type":"owner",
+                    "id":56,
+                    "rate":33,
+                    "name":"Костян Филатов",
+                    "thumb":"//img.neverbet.com/user/u56.jpg"
+                },
+                "dtime": "2016.01.05 20:30",
+                "comments":12,
+                "rate":3,
+                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+            }  
+        ]
+        
+## Состав [/team/{team_id}/list]
+Состав команды по группам
+
+### Состав команды [GET]
++ Arguments
+    + (string) : (Array) - название группы игроков
+        + id: (number) - ID игрока
+        + number:  (number) - игровой номер игрока
+        + name: (string) - имя игрока
+        + thumb: (string) - адрес к фото игрока
+        + games: (number) - кол-во игр в которых принял участие игрок
+        + goals: (number) - кол-во забитых голов 
+        + missed: (number) - кол-во пропущенных голов
+
++ Parameters
+    + team_id: 12 (required, number) - ID команды integer
+
++ Response 200 (application/json)
+
+        {
+            "Вратарь":[
+                {
+                    "id":22,
+                    "number":7,
+                    "name":"Эндрю Редмейн",
+                    "thumb":"//img.neverbet.com/football/g22.jpg",
+                    "games":16,
+                    "goals":2,
+                    "missed":0
+                }
+            ],
+            "Защитник":[
+                {
+                    "id":23,
+                    "number":6,
+                    "name":"Брендан Хэмилл",
+                    "thumb":"//img.neverbet.com/football/g22.jpg",
+                    "games":16,
+                    "goals":2,
+                    "missed":0
+                }
+            ]
+        }
+
+## Таблица [/team/{team_id}/table/{?season}/{?turnir_id}]
+Турнирные таблицы турниров в которых принимает участие команда
+Если не задан сезон и турнир, возвращает все турниры на данный сезон
+
+### Турнирная таблица [GET]
++ Arguments
+    + turnir: (Turnir) -
+        + id: (number) - ID турнира
+        + name: (string) - название турнира
+        + country: (string) - IATA код страны
+    + seasons: (Object) - список доступных сезонов
+        + value: name - номер сезона / название сезона
+    + season: (string) - название сезона
+    + table: (Object)
+        + name : (Array) - название таблицы
+            + (Array[10]) - [id команды, код страны, название команды, всего игр, выйграно, ничьи, проиграно, голов забито, голов пропущенно, очков]
+        
+
++ Parameters
+    + team_id: 12 (required, number) - ID команды integer
+    + season: 2016 (string) - сезон для выборки, передается год окончание сезона
+    + turnir_id: 12 (number) - ID турнира
+
++ Response 200 (application/json)
+
+        [
+            {
+               "turnir":{
+                    "id":12,
+                    "name": "Примьер Лига",
+                    "country": "UK"
+               },
+               "seasons":{
+                    "2012":"2011/2012",
+                    "2015":"2014/2015",
+                    "2016":"2015/2016",
+                },
+               "season":"2015/2016",
+               "table":{
+                    "Основная таблица":[
+                        [223,"ES","Вестерн Сити",16,9,3,4,16,9,30],
+                        [125,"ES","Леванте",16,9,3,4,16,9,28],
+                        [34,"ES","Арсенал",16,9,3,4,16,9,27],
+                        [567,"ES","Вестерн Сити",16,9,3,4,16,9,20],
+                        [12,"ES","Арсенал",16,9,3,4,16,9,19],
+                        [67,"ES","Леванте Сити",16,9,3,4,16,9,6]
+                    ],
+                    "Последние 5 туров":[
+                        [223,"ES","Вестерн Сити",16,9,3,4,16,9,30],
+                        [125,"ES","Леванте",16,9,3,4,16,9,28],
+                        [34,"ES","Арсенал",16,9,3,4,16,9,27],
+                        [567,"ES","Вестерн Сити",16,9,3,4,16,9,20],
+                        [12,"ES","Арсенал",16,9,3,4,16,9,19],
+                        [67,"ES","Леванте Сити",16,9,3,4,16,9,6]
+                    ]
+                }
+            }
+        ]
+        
+## Матчи [/team/{team_id}/games/{?season}/{?turnir_id}]
+Матчи в которых команда принимает/принимала участие
+
+### Матчи [GET]
++ Arguments
+    + turnirs: (Object)  - список доступных турниров
+        + value: name - номер турнира / название турнира
+    + seasons: (Object) - список доступных сезонов
+        + value: name - номер сезона / название сезона
+    + games: (Array) - список игр
+        + id: 11 (number) - ID матча.
+        + dtime: 2016.02.05 20:00:00 (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
+        + status: wait (string) - wait, live, cancel, fin
+        + info:
+            + score: 3-2 (string) - счет матча
+            + part: 2 (number) - тайм
+            + minute: 86 (number) - минута матча
+        + home: (Team) - первая команда
+            + id: 22 (number) - ID команды.
+            + name: Барселона (string) - название команды на русском.
+            + logo: //img.neverbet.com/barcelona.png (string) -  ссылка на лого команды.
+            + country: ES (string len=2) - IATA код страны команды.
+            + cards - карточки
+                + yellow: 2 (number) - желтые карты
+                + red: 0 (number) - красные карты
+            + corners: 2  (number) - угловые
+        + guest: (Team) - вторая команда
+            + id: 21 (number) - ID команды.
+            + name: Рома (string) - название команды на русском.
+            + logo: //img.neverbet.com/roma.png (string) -  ссылка на лого команды.
+            + country: IT (string len=2) - IATA код страны команды.
+            + cards - карточки
+                + yellow: 2 (number) - желтые карты
+                + red: 0 (number) - красные карты
+            + corners: 2  (number) - угловые
+        + odds - ставки / коэффициенты
+            + P1 : 1.2 (float) - победа первой команды 
+            + X: 2.2 (float) - ничья 
+            + P2: 2.0 (float) - победа второй команды 
+            + TOTAL: (Object)  - тотал
+                "2.5": (Array[2]) - значение [больше чем значение, меньше чем значение] 
+    
++ Parameters
+    + team_id: 12 (required, number) - ID команды integer
+    + season: 2016 (string) - сезон для выборки, передается год окончание сезона
+    + turnir_id: 12 (number) - ID турнира
+
++ Response 200 (application/json)
+
+        [
+            "seasons":{
+                "2012":"2011/2012",
+                "2015":"2014/2015",
+                "2016":"2015/2016",
+            },
+            "turnirs":{
+                123:"Испания. Примера",
+                12:"Чемпионат Испании"
+            },
+            "games":[
+                {
+                    "id": 11,
+                    "dtime": "2016.02.05 20:00:00",
+                    "status" : "live",
+                    "info":{
+                        "score": "3-0",
+                        "part": 2,
+                        "minute": 86
+                    },
+                    "home":{
+                        "id": 22,
+                        "name": "Барселона",
+                        "country": "ES",
+                        "cards":{
+                            "yellow":2,
+                            "red":0
+                        },
+                        "corners": 2
+                    },
+                    "guest": {
+                        "id":21,
+                        "name": "Рома",
+                        "country": "ES",
+                        "cards":{
+                            "yellow":4,
+                            "red":1
+                        },
+                        "corners": 12
+                    },
+                    "odds":{
+                        "P1": 1.2,
+                        "X": 2.2,
+                        "P2": 2.0,
+                        "TOTAL": {
+                            "2.5":[1.2,3.2]
+                        }
+                }
+            ]
         ]
