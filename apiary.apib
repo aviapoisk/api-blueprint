@@ -163,6 +163,7 @@ HOST: http://polls.neverbet.com/
             + comments: 12 (number) - кол-во комментариев к публикации
             + rate: 3 (number) - рейтинг публикации
             + body: (string) - сообщение
+            + tags: (Array) - массив тегов к публикации
 + Parameters
     + id: 11 (required, integer) - ID матча 
 + Response 200 (application/json)
@@ -250,7 +251,10 @@ HOST: http://polls.neverbet.com/
                     "dtime": "2016.01.05 20:30",
                     "comments":12,
                     "rate":3,
-                    "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+                    "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                    "tags": [
+                        "Вашингтон"
+                    ]
                 }
             ]
         }   
@@ -673,6 +677,7 @@ HOST: http://polls.neverbet.com/
         + comments: 12 (number) - кол-во комментариев к публикации
         + rate: 3 (number) - рейтинг публикации
         + body: (string) - сообщение
+        + tags: (Array) - массив тегов к публикации
         
 + Parameters
     + team_id: 12 (required, number) - ID команды integer
@@ -721,7 +726,10 @@ HOST: http://polls.neverbet.com/
                         "dtime": "2016.01.05 20:30",
                         "comments":12,
                         "rate":3,
-                        "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+                        "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                        "tags": [
+                            "Вашингтон"
+                        ]
                     }
                 ]
             }   
@@ -743,10 +751,11 @@ HOST: http://polls.neverbet.com/
     + comments: 12 (number) - кол-во комментариев к публикации
     + rate: 3 (number) - рейтинг публикации
     + body: (string) - сообщение
+    + tags: (Array) - массив тегов к публикации
     
 + Parameters
     + team_id: 12 (required, number) - ID команды integer
-    + offset: 12 (required, number) - отступ для выборки
+    + offset: 12 (number) - отступ для выборки
 
 + Response 200 (application/json)
 
@@ -763,7 +772,10 @@ HOST: http://polls.neverbet.com/
                 "dtime": "2016.01.05 20:30",
                 "comments":12,
                 "rate":3,
-                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                "tags": [
+                    "Вашингтон"
+                ]
             }  
         ]
         
@@ -1043,6 +1055,7 @@ HOST: http://polls.neverbet.com/
         + comments: 12 (number) - кол-во комментариев к публикации
         + rate: 3 (number) - рейтинг публикации
         + body: (string) - сообщение
+        + tags: (Array) - массив тегов к публикации
         
 + Parameters
     + turnir_id: 12 (required, number) - ID туринира 
@@ -1069,7 +1082,10 @@ HOST: http://polls.neverbet.com/
                         "dtime": "2016.01.05 20:30",
                         "comments":12,
                         "rate":3,
-                        "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+                        "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                        "tags": [
+                            "Вашингтон"
+                        ]
                     }
                 ]
             }   
@@ -1091,10 +1107,11 @@ HOST: http://polls.neverbet.com/
     + comments: 12 (number) - кол-во комментариев к публикации
     + rate: 3 (number) - рейтинг публикации
     + body: (string) - сообщение
+    + tags: (Array) - массив тегов к публикации
     
 + Parameters
     + turnir_id: 12 (required, number) - ID турнира
-    + offset: 12 (required, number) - отступ для выборки
+    + offset: 12 (number) - отступ для выборки
 
 + Response 200 (application/json)
 
@@ -1111,7 +1128,10 @@ HOST: http://polls.neverbet.com/
                 "dtime": "2016.01.05 20:30",
                 "comments":12,
                 "rate":3,
-                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                "tags": [
+                    "Вашингтон"
+                ]
             }  
         ]
         
@@ -1261,4 +1281,332 @@ HOST: http://polls.neverbet.com/
                         }
                 }
             ]
+        ]
+        
+# Group Лента
+
+## Лента [/feeds/{?offset}]
+Подробное описание туринира
+
+### Публикации [GET]
++ Arguments
+    + id: 12 (number) - ID номер публикации 
+    + author: (Author) - автор публикации
+        + type: owner (string) - тип авторства: owner - владелец, repost - перепубликации
+        + id: 12 (number) - ID автора
+        + rate: 33 (number) - рейтинг авторa
+        + name: Костян Филатов (string) - имя автора
+        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+    + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+    + comments: 12 (number) - кол-во комментариев к публикации
+    + rate: 3 (number) - рейтинг публикации
+    + body: (string) - сообщение
+    + tags: (Array) - массив тегов к публикации
+        
++ Parameters
+    + offset: 12 (number) - отступ для выборки
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1235,
+                "author":{
+                    "type":"owner",
+                    "id":56,
+                    "rate":33,
+                    "name":"Костян Филатов",
+                    "thumb":"//img.neverbet.com/user/u56.jpg"
+                },
+                "dtime": "2016.01.05 20:30",
+                "comments":12,
+                "rate":3,
+                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                "tags": [
+                    "Вашингтон"
+                ]
+            }
+        ]
+        
+## Публикация [/feed]
+Подробное описание Публикации
+
+### Подбробнее о публикации [GET /feed/{id}]
++ Arguments
+    + id: 12 (number) - ID номер публикации 
+    + author: (Author) - автор публикации
+        + type: owner (string) - тип авторства: owner - владелец, repost - перепубликации
+        + id: 12 (number) - ID автора
+        + rate: 33 (number) - рейтинг авторa
+        + name: Костян Филатов (string) - имя автора
+        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+    + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+    + comments: 12 (number) - кол-во комментариев к публикации
+        + id: 12 (number) - ID комментария
+        + author: (Author) - автор публикации
+            + id: 12 (number) - ID автора
+            + rate: 33 (number) - рейтинг авторa
+            + name: Костян Филатов (string) - имя автора
+            + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+        + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+        + body: (string) - комментарий
+    + rate: 3 (number) - рейтинг публикации
+    + body: (string) - сообщение
+    + tags: (Array) - массив тегов к публикации
+        
++ Parameters
+    + id: 12 (required, number) - ID публикации 
+
++ Response 200 (application/json)
+
+        {
+            "id": 1235,
+            "author":{
+                "type":"owner",
+                "id":56,
+                "rate":33,
+                "name":"Костян Филатов",
+                "thumb":"//img.neverbet.com/user/u56.jpg"
+            },
+            "dtime": "2016.01.05 20:30",
+            "comments":[
+                {
+                    "id": 1235,
+                    "author":{
+                        "id":56,
+                        "rate":33,
+                        "name":"Костян Филатов",
+                        "thumb":"//img.neverbet.com/user/u56.jpg"
+                    },
+                    "dtime": "2016.01.05 20:30",
+                    "body":"Думаю сейчас ставить на Примеру...Есть идеи?"
+                }
+            ],
+            "rate":3,
+            "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+            "tags": [
+                "Вашингтон"
+            ]
+        }
+
+### Написать публикацию [POST /feed]
+Если публикация содержит изображения/видео необходимо загружать их отдельным запросом.
+
++ Arguments
+    + auth: (string) - тип приватности публикации public/folowers/friends/private
+    + body: (string) - текстовое сообщение публикации
+    + tags: (Array) - массив текстовых тегов
+    
++ Request (application/json)
+
+    + Body
+
+            {
+                "auth": "public",
+                "body": "<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                "tags": [
+                    "Вашингтон"
+                ]
+            }
+    
++ Response 204
+
+### Редактировать публикацию [PUT /feed/{id}]
+Если публикация содержит изображения/видео необходимо загружать их отдельным запросом.
+
++ Parameters
+    + id: 12 (required, number) - ID публикации 
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "body": "<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                "tags": [
+                    "Вашингтон"
+                ]
+            }
+    
++ Response 204
+
+### Удалить публикацю [DELETE /feed/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID публикации 
+
++ Response 204
+
+## Комментарии [/feed/{id}/comments]
+Комментарии к Публикации
+
+### Комментарии [GET /feed/{id}/comments]
++ Arguments
+    + id: 12 (number) - ID номер публикации 
+    + author: (Author) - автор публикации
+        + id: 12 (number) - ID автора
+        + rate: 33 (number) - рейтинг авторa
+        + name: Костян Филатов (string) - имя автора
+        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+    + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+    + body: (string) - сообщение
+        
++ Parameters
+    + id: 12 (required, number) - ID публикации 
+
++ Response 200 (application/json)
+
+        [
+                {
+                    "id": 1235,
+                    "author":{
+                        "id":56,
+                        "rate":33,
+                        "name":"Костян Филатов",
+                        "thumb":"//img.neverbet.com/user/u56.jpg"
+                    },
+                    "dtime": "2016.01.05 20:30",
+                    "body":"Думаю сейчас ставить на Примеру...Есть идеи?"
+                }
+        ]
+
+### Написать публикацию [POST /feed/{id}/comments]
+
++ Parameters
+    + id: 12 (required, number) - ID публикации 
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "body": "Думаю сейчас ставить на Примеру...Есть идеи?"
+            }
+    
++ Response 204
+
+### Удалить публикацю [DELETE /comments/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID комментария 
+
++ Response 204
+
+
+
+# Group Рейтинг букмекеров
+
+## Рейтинг [/books]
+Рейтинг букмекеров
+
+### Рейтинг [GET]
++ Arguments
+    + id:  (number) - ID букмекера 
+    + name: (string) - Имя букмекера
+    + logo: (string) - ссылка на лого букмекера.
+    + comments: (number) - кол-во отзывов
+    + rate: (string) - рейтинг букмекера
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1235,
+                "name": "Olimp",
+                "logo":"//img.neverbet.com/books/olimp.png",
+                "comments":957,
+                "rate":"A",
+            }
+        ]
+        
+## Профайл [/books/{id}]
+Профайл букмекерa
+
+### Профайл букмекерa[GET]
++ Arguments
+    + id:  (number) - ID букмекера 
+    + name: (string) - Имя букмекера
+    + logo: (string) - ссылка на лого букмекера.
+    + rate: (string) - рейтинг букмекера
+    + about: (string) - описание конторы
+    + rules: (Array) - массив групп правил
+        + name:descr - название группы правил : описание правил
+    
++ Parameters
+    + id: 12 (required, number) - ID букмекера 
+    
++ Response 200 (application/json)
+
+        {
+            "id": 1235,
+            "name": "Olimp",
+            "logo":"//img.neverbet.com/books/olimp.png",
+            "rate":"A",
+            "about":"Надежная букмекерская контора. Предлагает одну из самых широких линий для ставок на футбол"
+            "rules":{
+                "Ввод/вывод денежных средств":"Очень быстрый расчет ставок, сразу после определения результата."
+            }
+        }
+        
+## Отзывы [/books/{id}/reviews{?offset}]
+Отзывы букмекерa
+
+### Отзывы[GET]
++ Arguments
+    + id: 12 (number) - ID номер отзыва 
+    + author: (Author) - автор публикации
+        + id: 12 (number) - ID автора
+        + rate: 33 (number) - рейтинг авторa
+        + name: Костян Филатов (string) - имя автора
+        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+    + dtime: 2016.01.05 20:30 (DateTime) - дата и время отзыва в формате Y.m.d H:m 
+    + body: (string) - сообщение
+    
++ Parameters
+    + id: 12 (required, number) - ID букмекера 
+    + offset: 12 (number) - отступ для выборки
+    
++ Response 200 (application/json)
+
+        [
+                {
+                    "id": 1235,
+                    "author":{
+                        "id":56,
+                        "rate":33,
+                        "name":"Костян Филатов",
+                        "thumb":"//img.neverbet.com/user/u56.jpg"
+                    },
+                    "dtime": "2016.01.05 20:30",
+                    "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ"
+                }
+        ]
+
+## Бонусы [/books/{id}/bonus{?offset}]
+Бонусы букмекерa
+
+### Бонусы[GET]
++ Arguments
+    + id: 12 (number) - ID номер отзыва 
+    + author: (Author) - автор публикации
+        + id: 12 (number) - ID автора
+        + rate: 33 (number) - рейтинг авторa
+        + name: Костян Филатов (string) - имя автора
+        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+    + dtime: 2016.01.05 20:30 (DateTime) - дата и время отзыва в формате Y.m.d H:m 
+    + body: (string) - сообщение
+    
++ Parameters
+    + id: 12 (required, number) - ID букмекера 
+    + offset: 12 (number) - отступ для выборки
+    
++ Response 200 (application/json)
+
+        [
+                {
+                    "id": 1235,
+                    "name":"Бонус до 10% на экспресс",
+                    "dtime": "2016.01.05 20:30",
+                    "body":"<img src='//img.neverbet.com/books/bonus1.jpg'/>K каждой экспресс-ставке от 2 до 10%, с шагом 1% за каждое событие в экспрессе. При этом Что нужно знать о бонусах букмекеровучитываются события с коэффициентом от 2.5 и выше. Акция не распространяется на ставки Live."
+                }
         ]
