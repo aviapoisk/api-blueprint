@@ -992,7 +992,7 @@ HOST: http://polls.neverbet.com/
     + name: (string) - название группы.
     + groups: (Array) - список подгрупп
     + icon: (string) - адрес иконки группы
-    + teams: (Array) - список турниров в группе/подгруппе
+    + turnirs: (Array) - список турниров в группе/подгруппе
         + id: (number) - ID турнира.
         + name: (string) - название турнира на русском.
         + icon: (string) - адрес иконки турнира
@@ -1036,7 +1036,7 @@ HOST: http://polls.neverbet.com/
 ## Турнир [/turnir/{turnir_id}]
 Подробное описание туринира
 
-### Описание команды [GET]
+### Описание туринира [GET]
 + Arguments
     + id: (number) - ID турнира
     + name: (string) - название турнира на русском.
@@ -1587,14 +1587,8 @@ HOST: http://polls.neverbet.com/
 
 ### Бонусы[GET]
 + Arguments
-    + id: 12 (number) - ID номер отзыва 
-    + author: (Author) - автор публикации
-        + id: 12 (number) - ID автора
-        + rate: 33 (number) - рейтинг авторa
-        + name: Костян Филатов (string) - имя автора
-        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
-    + dtime: 2016.01.05 20:30 (DateTime) - дата и время отзыва в формате Y.m.d H:m 
-    + body: (string) - сообщение
+    + name: (string) - заголовок
+    + body: (string) - описание бонуса
     
 + Parameters
     + id: 12 (required, number) - ID букмекера 
@@ -1603,10 +1597,404 @@ HOST: http://polls.neverbet.com/
 + Response 200 (application/json)
 
         [
-                {
-                    "id": 1235,
-                    "name":"Бонус до 10% на экспресс",
-                    "dtime": "2016.01.05 20:30",
-                    "body":"<img src='//img.neverbet.com/books/bonus1.jpg'/>K каждой экспресс-ставке от 2 до 10%, с шагом 1% за каждое событие в экспрессе. При этом Что нужно знать о бонусах букмекеровучитываются события с коэффициентом от 2.5 и выше. Акция не распространяется на ставки Live."
-                }
+            {
+                "name":"Бонус до 10% на экспресс",
+                "body":"<img src='//img.neverbet.com/books/bonus1.jpg'/>K каждой экспресс-ставке от 2 до 10%, с шагом 1% за каждое событие в экспрессе. При этом Что нужно знать о бонусах букмекеровучитываются события с коэффициентом от 2.5 и выше. Акция не распространяется на ставки Live."
+            }
         ]
+
+# Group Лига Прогнозов
+
+## Турниры [/league]
+Список турниров в лиге прогнозистов
+
+### Список [GET]
++ Arguments
+    + id:  (number) - ID турнира 
+    + name: (string) - название турнира
+    + logo: (string) - лого турнира.
+    + members: (number) - кол-во участников
+    + descr: (string) - описание турнира
+    + prize: (string) - призовой фонд
+    + finish: (DateTime) - дата и время окончания тура Y.m.d H:m
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1235,
+                "name": "Царь горы",
+                "logo":"//img.neverbet.com/league/1.png",
+                "descr":"7 удачных прогнозов подряд сделают вас обладателем 5 000 рублей, и этот приз можно получить неоднократно. Количество попыток неограниченно!",
+                "prize":"5000p",
+                "members":1200,
+                "finish":"2016.01.05 20:30"
+            }
+        ]
+        
+## Турнир [/league/{id}]
+Описание правил турнира
+
+### Турнир[GET]
++ Arguments
+    + about: (string) - описание турнира
+    + rules: (Array) - массив групп правил
+        + name:descr - название группы правил : описание правил
+    
++ Parameters
+    + id: 12 (required, number) - ID турнира 
+    
++ Response 200 (application/json)
+
+        {
+            "about":"Надежная букмекерская контора. Предлагает одну из самых широких линий для ставок на футбол"
+            "rules":{
+                "Ввод/вывод денежных средств":"Очень быстрый расчет ставок, сразу после определения результата."
+            }
+        }
+        
+## Победители турнира [/league/{id}/winners]
+Список победителей турнира по турам
+
+### Турнир[GET]
++ Arguments
+    + name: Костян Филатов (string) - имя автора
+    + winners: (Array) - массив победителей
+        + id: 12 (number) - ID автора
+        + rate: 33 (number) - рейтинг авторa
+        + name: Костян Филатов (string) - имя автора
+        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+    
++ Parameters
+    + id: 12 (required, number) - ID турнира 
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "name":"Тур №5",
+                "winners":[
+                    {
+                        "id":56,
+                        "rate":33,
+                        "name":"Костян Филатов",
+                        "thumb":"//img.neverbet.com/user/u56.jpg"
+                    }
+                ]
+            }
+        ]
+        
+## Вопросы турнира [/league/{id}/questions]
+Список вопросов турнира. Вариантов ответа на вопрос может быть более 3х
+
+### Вопросы[GET]
++ Arguments
+    + id: 12 (number) - ID автора
+    + turnir: (Object)
+        + id: (number) - ID турнира.
+        + name: (string) - название турнира
+        + country: (string) - код страны
+    + game: (Object)
+        + id: 11 (number) - ID матча.
+        + dtime: 2016.02.05 20:00:00 (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
+        + status: wait (string) - wait, live, cancel, fin
+        + info:
+            + score: 3-2 (string) - счет матча
+            + part: 2 (number) - тайм
+            + minute: 86 (number) - минута матча
+        + home: (Team) - первая команда
+            + id: 22 (number) - ID команды.
+            + name: Барселона (string) - название команды на русском.
+            + logo: //img.neverbet.com/barcelona.png (string) -  ссылка на лого команды.
+            + country: ES (string len=2) - IATA код страны команды.
+            + cards - карточки
+                + yellow: 2 (number) - желтые карты
+                + red: 0 (number) - красные карты
+            + corners: 2  (number) - угловые
+        + guest: (Team) - вторая команда
+            + id: 21 (number) - ID команды.
+            + name: Рома (string) - название команды на русском.
+            + logo: //img.neverbet.com/roma.png (string) -  ссылка на лого команды.
+            + country: IT (string len=2) - IATA код страны команды.
+            + cards - карточки
+                + yellow: 2 (number) - желтые карты
+                + red: 0 (number) - красные карты
+            + corners: 2  (number) - угловые
+    + question: (string) - текст вопроса
+    + answers: (Object) - варинаты ответа
+        + номер ответа : заголовок
+    
++ Parameters
+    + id: 12 (required, number) - ID турнира 
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "id":56,
+                "turnir":{
+                    "id":33,
+                    "name":"Примера",
+                    "country": "ES"
+                },
+                "game":{
+                    "id": 11,
+                    "dtime": "2016.02.05 20:00:00",
+                    "status" : "live",
+                    "info":{
+                        "score": "3-0",
+                        "part": 2,
+                        "minute": 86
+                    },
+                    "home":{
+                        "id": 22,
+                        "name": "Барселона",
+                        "country": "ES",
+                        "cards":{
+                            "yellow":2,
+                            "red":0
+                        },
+                        "corners": 2
+                    },
+                    "guest": {
+                        "id":21,
+                        "name": "Рома",
+                        "country": "ES",
+                        "cards":{
+                            "yellow":4,
+                            "red":1
+                        },
+                        "corners": 12
+                    }
+                },
+                "question":"Победит Барселона?",
+                "answers":{
+                    "1":"Победит",
+                    "2":"Ничья",
+                    "3":"Нет"
+                }
+            }
+        ]
+        
+### Выбрать ответ на вопрос [POST /league/{id}/questions]
++ Arguments
+    + номер вопроса : номер ответа
+    
++ Parameters
+    + id: 12 (required, number) - ID турнира 
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "56": 1,
+                "58": 2
+            }
+    
++ Response 204
+
+# Group Избранное
+
+## Матчи [/favorite/games]
+Список избранных матчей пользователя
+
+### Список [GET]
++ Arguments
+    + id: 11 (number) - ID матча.
+    + dtime: 2016.02.05 20:00:00 (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
+    + status: wait (string) - wait, live, cancel, fin
+    + info:
+        + score: 3-2 (string) - счет матча
+        + part: 2 (number) - тайм
+        + minute: 86 (number) - минута матча
+    + home: (Team) - первая команда
+        + id: 22 (number) - ID команды.
+        + name: Барселона (string) - название команды на русском.
+        + logo: //img.neverbet.com/barcelona.png (string) -  ссылка на лого команды.
+        + country: ES (string len=2) - IATA код страны команды.
+        + cards - карточки
+            + yellow: 2 (number) - желтые карты
+            + red: 0 (number) - красные карты
+        + corners: 2  (number) - угловые
+    + guest: (Team) - вторая команда
+        + id: 21 (number) - ID команды.
+        + name: Рома (string) - название команды на русском.
+        + logo: //img.neverbet.com/roma.png (string) -  ссылка на лого команды.
+        + country: IT (string len=2) - IATA код страны команды.
+        + cards - карточки
+            + yellow: 2 (number) - желтые карты
+            + red: 0 (number) - красные карты
+        + corners: 2  (number) - угловые
++ Response 200 (application/json)
+
+        [
+            {
+               "id": 11,
+                "dtime": "2016.02.05 20:00:00",
+                "status" : "live",
+                "info":{
+                    "score": "3-0",
+                    "part": 2,
+                    "minute": 86
+                },
+                "home":{
+                "id": 22,
+                    "name": "Барселона",
+                    "country": "ES",
+                    "cards":{
+                        "yellow":2,
+                            "red":0
+                    },
+                    "corners": 2
+                },
+                "guest": {
+                    "id":21,
+                    "name": "Рома",
+                    "country": "ES",
+                    "cards":{
+                        "yellow":4,
+                        "red":1
+                    },
+                "corners": 12
+            }
+        ]
+
+### Добавить в избронное [POST /favorite/games/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID матча 
+
++ Response 204
+
+### Удалить  [DELETE /favorite/games/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID матча 
+
++ Response 204
+
+
+
+## Турниры [/favorite/turnirs]
+Список избранных турниров пользователя
+
+### Список [GET]
++ Arguments
+    + id: (number) - ID турнира.
+    + name: (string) - название турнира на русском.
+    + icon: (string) - адрес иконки турнира
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id" : 12,
+                "name": "Примьер-Лига",
+                "icon": "//img.neverbet.com/country/EN.png"
+            }
+        ]
+
+### Добавить в избронное [POST /favorite/turnirs/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID турнира 
+
++ Response 204
+
+### Удалить  [DELETE /favorite/turnirs/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID турнира 
+
++ Response 204
+
+
+## Команды [/favorite/teams]
+Список избранных команд пользователя
+
+### Список [GET]
++ Arguments
+    + id: (number) - ID команды.
+    + name: (string) - название команды на русском.
+    + icon: (string) - адрес иконки команды
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id" : 12,
+                "name": "Барселона",
+                "icon": "//img.neverbet.com/team/barcelona.png"
+            }
+        ]
+
+### Добавить в избронное [POST /favorite/teams/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID команды 
+
++ Response 204
+
+### Удалить  [DELETE /favorite/teams/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID команды 
+
++ Response 204
+
+## Закладки [/favorite/feeds]
+Список избранных пользователем публикаций
+
+### Список [GET /favorite/feeds{?offset}]
++ Arguments
+    + id: 12 (number) - ID номер публикации 
+    + author: (Author) - автор публикации
+        + type: owner (string) - тип авторства: owner - владелец, repost - перепубликации
+        + id: 12 (number) - ID автора
+        + rate: 33 (number) - рейтинг авторa
+        + name: Костян Филатов (string) - имя автора
+        + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+    + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+    + comments: 12 (number) - кол-во комментариев к публикации
+    + rate: 3 (number) - рейтинг публикации
+    + body: (string) - сообщение
+    + tags: (Array) - массив тегов к публикации
+        
++ Parameters
+    + offset: 12 (number) - отступ для выборки
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1235,
+                "author":{
+                    "type":"owner",
+                    "id":56,
+                    "rate":33,
+                    "name":"Костян Филатов",
+                    "thumb":"//img.neverbet.com/user/u56.jpg"
+                },
+                "dtime": "2016.01.05 20:30",
+                "comments":12,
+                "rate":3,
+                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                "tags": [
+                    "Вашингтон"
+                ]
+            }
+        ]
+### Добавить в избронное [POST /favorite/feeds/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID публикации 
+
++ Response 204
+
+### Удалить  [DELETE /favorite/feeds/{id}]
+
++ Parameters
+    + id: 12 (required, number) - ID публикации 
+
++ Response 204
