@@ -461,7 +461,6 @@ HOST: http://polls.neverbet.com/
     + 1Х: Победа 1-ой команды или ничья - [ [ID букмекера, коэффициент букмекера] ].
     + groups (Array) - группы ставок
         + name: Точный счет (string) - название группы
-		+ code: (string) - префикс кода ставки
         ... остальные атрибуты строки в группе. Название атрибута - название строки, значение массив из  [ID букмекера, коэффициент букмекера] 
         Тотал больше/меньше = [ массив больше , массив меньше ]
     + books -  букмекеры
@@ -484,7 +483,6 @@ HOST: http://polls.neverbet.com/
             "groups":[
                 {
                     "name": "Точный счет",
-					"code":"EXG",
                     "1:0":[[1,2.1],[2,2.2],[3,1.8]],
                     "1:1":[[1,2.1],[2,1.6],[3,2.0]],
                     "2:0":[[1,2.1],[2,2.1]],
@@ -492,14 +490,12 @@ HOST: http://polls.neverbet.com/
                 },
                 {
                     "name":"Больше/Меньше",
-					"code":"BM",
                     "0.5":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]],
                     "1":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]],
                     "1.5":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]],
                 },
                 {
                     "name":"Тотал матча",
-					"code":"TOTAL",
                     "Чет":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]],
                     "Нечет":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]]
                 }
@@ -2656,7 +2652,7 @@ HOST: http://polls.neverbet.com/
         + dtime: (DateTime) - время и дата ставки
         + options: события
             + id: (number) - ID ставки
-            + status: (string) - статус ставки - wait/win/lose
+            + status: (string) - статус ставки
             + name: (string) - заголов ставки
             + descr: (string) - текстовое описание ставки
             + ratio: (number) - коэф ставки
@@ -2694,172 +2690,26 @@ HOST: http://polls.neverbet.com/
 
 ### Создать ставку [POST /odds]
 + Arguments
-	+ options: (Array)
-		+ id: (number) - ID матча
-		+ prefix: (string) - префикс ставки
-		+ code: (string) - код ставки
-		+ book: (number) - ID букмекерa у которого делается ставка
-		+ ration: (number) - коэффициент ставки
+    + body: (string) - сообщение
+    + tags: (Array) - массив тегов к публикации
 
 + Request (application/json)
 
     + Body
 
-            [
-				{
-                    "id":234,
-					"prefix":"TOT",
-					"code":"1:0",
-					"book":2,
-					"ratio":3.3
-				}
-			]
+            {
+                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                "tags": [
+                    "Вашингтон"
+                ]
+            }
 
 + Response 201
 
 
-### Удалить ставку  [DELETE /odds/{id}]
+### Удалить ставку  [DELETE /friends/{id}]
 
 + Parameters
-    + id: 12 (required, number) - ID ставки 
+    + id: 12 (required, number) - ID ползователя 
 
 + Response 204
-
-## Турниры [/odds/turnirs]
-Ставки пользователя в турнирах
-
-### Список ставок [GET /odds/turnirs{?offset}]
-+ Arguments
-    + total: (number) - всего турниров с участием
-    + ingame: (number) - всего событий в турнирах
-    + rating: (number) - рейтинг в турнирах
-    + win: (number) - угадано событий
-    + odds: (Array) - ставки
-        + id: (number) - ID ставки
-        + dtime: (DateTime) - время и дата ставки
-		+ name: (string) - заголов турнира
-        + options: события
-            + id: (number) - ID ставки
-            + status: (string) - статус ставки
-            + name: (string) - заголов ставки
-            + descr: (string) - текстовое описание ставки
-
-+ Parameters
-    + offset: 10 (number) - отступ для выборки
-
-+ Response 200 (application/json)
-        {
-            "total":23,
-            "ingame":33000,
-            "rating":400,
-            "win":45000,
-            "odds":[
-                {
-                    "id": 56,
-					"name":"Царь горы №5",
-                    "dtime": "2016.05.15 12:22:13",
-                    "options":[
-                        {
-                            "id":32452,
-                            "status":"wait",
-                            "name":"Арсенал - Барселона",
-                            "descr":"Исход победа первой"
-                        }
-                    ]
-                }
-            ]
-        }
-		
-## Прогнозы [/odds/tips]
-Прогнозы пользователя 
-
-### Список прогнозов [GET /odds/tips{?offset}]
-+ Arguments
-    + total: (number) - всего прогнозов
-    + exact: (number) - точных прогнозов
-    + rating: (number) - рейтинг прогнозистов
-    + win: (number) - угадано событий
-    + tips: (Array) - прогнозы
-        + id: (number) - ID прогноза
-        + dtime: (DateTime) - время и дата ставки
-        + options: события
-            + id: (number) - ID события
-            + status: (string) - статус ставки
-            + name: (string) - заголов ставки
-            + descr: (string) - текстовое описание ставки
-			+ ratio: (number) - общий коэф ставок
-        + ratio: (number) - общий коэф ставок
-
-+ Parameters
-    + offset: 10 (number) - отступ для выборки
-
-+ Response 200 (application/json)
-
-        {
-            "total":23,
-            "exact":33,
-            "rating":400,
-            "win":15,
-            "odds":[
-                {
-                    "id": 5,
-                    "dtime": "2016.05.15 12:22:13",
-                    "options":[
-                        {
-                            "id":32452,
-                            "status":"wait",
-                            "name":"Арсенал - Барселона",
-                            "descr":"Исход победа первой"
-							"ratio":3.3
-                        }
-                    ],
-                    "ratio":8.33
-                }
-            ]
-        }
-
-## Мнения [/odds/opinion]
-Мнения пользователя 
-
-### Список [GET /odds/opinion{?offset}]
-+ Arguments
-    + total: (number) - всего запросов
-    + exact: (number) - точных прогнозов
-    + rating: (number) - рейтинг прогнозистов
-    + reply: (number) - кол-во ответов
-    + opinions: (Array) - прогнозы
-        + id: (number) - ID прогноза
-        + dtime: (DateTime) - время и дата запроса
-        + options: события
-            + id: (number) - ID события
-			+ thumb: (string) - адрес к иконке
-            + name: (string) - заголов мнения
-			+ votes: (number) - кол-во голосов
-
-+ Parameters
-    + offset: 10 (number) - отступ для выборки
-
-+ Response 200 (application/json)
-
-        {
-            "total":23,
-            "exact":3,
-            "rating":400,
-            "win":15,
-            "opinions":[
-                {
-                    "id": 5,
-                    "dtime": "2016.05.15 12:22:13",
-					"game": 123,
-					"name":"Арсенал-Барселона",
-                    "options":[
-                        {
-                            "id":32452,
-							"thumb":"//img.neverbet.com/user/u56.jpg",
-                            "name":"Исход победа первой"
-							"votes":25
-                        }
-                    ]
-                }
-            ]
-        }
