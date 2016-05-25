@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://polls.neverbet.com/
+HOST: http://api.neverbet.com/
 
 # NeverBet
 Документация по API 1.0 для мобильного приложения
@@ -2713,3 +2713,143 @@ HOST: http://polls.neverbet.com/
     + id: 12 (required, number) - ID ползователя 
 
 + Response 204
+
+## Турниры [/odds/turnirs]
+Ставки пользователя в турнирах
+
+### Список [GET /odds/turnirs{?offset}]
++ Arguments
+    + total: (number) - всего турниров с участием
+    + ingame: (number) - всего событий в турнирах
+    + rating: (number) - рейтинг в турнирах
+    + win: (number) - угадано событий
+    + odds: (Array) - ставки
+        + id: (number) - ID ставки
+        + dtime: (DateTime) - время и дата ставки
+        + name: (string) - заголов турнира
+        + options: события
+            + id: (number) - ID ставки
+            + status: (string) - статус ставки
+            + name: (string) - заголов ставки
+            + descr: (string) - текстовое описание ставки
+
++ Parameters
+    + offset: 10 (number) - отступ для выборки
+
++ Response 200 (application/json)
+
+        {
+            "total":23,
+            "ingame":33000,
+            "rating":145000,
+            "win":45000,
+            "odds":[
+                {
+                    "id": 56,
+                    "name":"Царь горы №5",
+                    "dtime": "2016.05.15 12:22:13",
+                    "options":[
+                        {
+                            "id":32452,
+                            "status":"wait",
+                            "name":"Арсенал - Барселона",
+                            "descr":"Исход победа первой",
+                        }
+                    ]
+                }
+            ]
+        }
+        
+## Прогнозы [/odds/tips]
+Прогнозы пользователя 
+
+### Список прогнозов [GET /odds/tips{?offset}]
++ Arguments
+    + total: (number) - всего прогнозов
+    + exact: (number) - точных прогнозов
+    + rating: (number) - рейтинг прогнозистов
+    + win: (number) - угадано событий
+    + tips: (Array) - прогнозы
+        + id: (number) - ID прогноза
+        + dtime: (DateTime) - время и дата прогноза
+        + options: события
+            + id: (number) - ID события
+            + status: (string) - статус ставки
+            + name: (string) - заголов ставки
+            + descr: (string) - текстовое описание ставки
+            + ratio: (number) - общий коэф ставок
+        + ratio: (number) - общий коэф ставок
+
++ Parameters
+    + offset: 10 (number) - отступ для выборки
+
++ Response 200 (application/json)
+
+        {
+            "total":23,
+            "exact":33,
+            "rating":400,
+            "win":15,
+            "odds":[
+                {
+                    "id": 56,
+                    "dtime": "2016.05.15 12:22:13",
+                    "options":[
+                        {
+                            "id":32452,
+                            "status":"wait",
+                            "name":"Арсенал - Барселона",
+                            "descr":"Исход победа первой",
+                            "ratio":3.3
+                        }
+                    ],
+                    "ratio":3.3
+                }
+            ]
+        }
+        
+## Мнения [/odds/opinion]
+Мнения пользователя 
+
+### Список [GET /odds/opinion{?offset}]
++ Arguments
+    + total: (number) - всего запросов
+    + exact: (number) - точных прогнозов
+    + rating: (number) - рейтинг прогнозистов
+    + reply: (number) - кол-во ответов
+    + opinions: (Array) - прогнозы
+        + id: (number) - ID прогноза
+        + dtime: (DateTime) - время и дата прогноза
+        + options: события
+            + id: (number) - ID события
+            + status: (string) - статус ставки
+            + name: (string) - заголов ставки
+            + descr: (string) - текстовое описание ставки
+            + ratio: (number) - общий коэф ставок
+        + ratio: (number) - общий коэф ставок
+
++ Parameters
+    + offset: 10 (number) - отступ для выборки
+
++ Response 200 (application/json)
+
+        {
+            "total":23,
+            "exact":33,
+            "rating":400,
+            "reply":15,
+            "opinions":[
+                {
+                    "id": 56,
+                    "dtime": "2016.05.15 12:22:13",
+                    "options":[
+                        {
+                            "id":32452,
+                            "thumb":"//img.neverbet.com/user/u56.jpg",
+                            "name":"Арсенал - Барселона",
+                            "votes":33
+                        }
+                    ]
+                }
+            ]
+        }
