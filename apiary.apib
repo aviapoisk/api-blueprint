@@ -684,8 +684,7 @@ HOST: http://api.neverbet.com/
 
 + Response 200 (application/json)
 
-        [
-            {
+        {
                 "id" : 12,
                 "name": "Барселона",
                 "original": "Barcelona",
@@ -732,8 +731,8 @@ HOST: http://api.neverbet.com/
                         ]
                     }
                 ]
-            }   
-        ]
+        }   
+
         
 ## Новости [/team/{team_id}/feeds/{?offset}]
 Новости/публикации по команде
@@ -931,7 +930,7 @@ HOST: http://api.neverbet.com/
 
 + Response 200 (application/json)
 
-        [
+        {
             "seasons":{
                 "2012":"2011/2012",
                 "2015":"2014/2015",
@@ -978,9 +977,10 @@ HOST: http://api.neverbet.com/
                         "TOTAL": {
                             "2.5":[1.2,3.2]
                         }
+                    }
                 }
             ]
-        ]
+        }
         
 # Group Турниры
 
@@ -1062,8 +1062,7 @@ HOST: http://api.neverbet.com/
 
 + Response 200 (application/json)
 
-        [
-            {
+        {
                 "id" : 12,
                 "name": "Премьер-Лига",
                 "descr": "Чемпионат Англии по футболу",
@@ -1088,8 +1087,7 @@ HOST: http://api.neverbet.com/
                         ]
                     }
                 ]
-            }   
-        ]
+        }   
         
 ## Новости [/turnir/{turnir_id}/feeds/{?offset}]
 Новости/публикации по турниру
@@ -1154,8 +1152,7 @@ HOST: http://api.neverbet.com/
 
 + Response 200 (application/json)
 
-        [
-            {
+        {
                "seasons":{
                     "2012":"2011/2012",
                     "2015":"2014/2015",
@@ -1180,8 +1177,7 @@ HOST: http://api.neverbet.com/
                         [67,"ES","Леванте Сити",16,9,3,4,16,9,6]
                     ]
                 }
-            }
-        ]
+        }
         
 ## Матчи [/turnir/{turnir_id}/games/{?season}{?tour_id}]
 Матчи в турнире
@@ -1232,7 +1228,7 @@ HOST: http://api.neverbet.com/
 
 + Response 200 (application/json)
 
-        [
+        {
             "seasons":{
                 "2012":"2011/2012",
                 "2015":"2014/2015",
@@ -1279,9 +1275,10 @@ HOST: http://api.neverbet.com/
                         "TOTAL": {
                             "2.5":[1.2,3.2]
                         }
+                    }
                 }
             ]
-        ]
+        }
         
 # Group Лента
 
@@ -1430,7 +1427,7 @@ HOST: http://api.neverbet.com/
     
 + Response 204
 
-### Удалить публикацю [DELETE /feed/{id}]
+### Удалить публикацию [DELETE /feed/{id}]
 
 + Parameters
     + id: 12 (required, number) - ID публикации 
@@ -1470,7 +1467,7 @@ HOST: http://api.neverbet.com/
                 }
         ]
 
-### Написать публикацию [POST /feed/{id}/comments]
+### Написать Комментарии [POST /feed/{id}/comments]
 
 + Parameters
     + id: 12 (required, number) - ID публикации 
@@ -1485,7 +1482,7 @@ HOST: http://api.neverbet.com/
     
 + Response 204
 
-### Удалить публикацю [DELETE /comments/{id}]
+### Удалить Комментарии [DELETE /feed/{id}/comments]
 
 + Parameters
     + id: 12 (required, number) - ID комментария 
@@ -1542,13 +1539,13 @@ HOST: http://api.neverbet.com/
             "name": "Olimp",
             "logo":"//img.neverbet.com/books/olimp.png",
             "rate":"A",
-            "about":"Надежная букмекерская контора. Предлагает одну из самых широких линий для ставок на футбол"
+            "about":"Надежная букмекерская контора. Предлагает одну из самых широких линий для ставок на футбол",
             "rules":{
                 "Ввод/вывод денежных средств":"Очень быстрый расчет ставок, сразу после определения результата."
             }
         }
         
-## Отзывы [/books/{id}/reviews{?offset}]
+## Отзывы [/book/{id}/reviews{?offset}]
 Отзывы букмекерa
 
 ### Отзывы[GET]
@@ -1582,7 +1579,7 @@ HOST: http://api.neverbet.com/
                 }
         ]
 
-### Создать отзыв [POST /books/{id}/reviews]
+### Создать отзыв [POST /book/{id}/reviews]
 + Arguments
     + body: (string) - сообщение
     + tags: (Array) - массив тегов к публикации
@@ -1621,7 +1618,7 @@ HOST: http://api.neverbet.com/
                 ]
         }
 
-### Редактировать отзыв [PUT /books/{id}/reviews/{post_id}]
+### Редактировать отзыв [PUT /book/{id}/reviews/{post_id}]
 + Arguments
     + body: (string) - сообщение
     + tags: (Array) - массив тегов к публикации
@@ -1662,7 +1659,7 @@ HOST: http://api.neverbet.com/
         }
 
 
-### Удалить отзыв [DELETE /books/{id}/reviews/{post_id}]
+### Удалить отзыв [DELETE /book/{id}/reviews/{post_id}]
 
 + Parameters
     + id: 12 (required, number) - ID букмеккера
@@ -1670,7 +1667,7 @@ HOST: http://api.neverbet.com/
 
 + Response 204
 
-## Бонусы [/books/{id}/bonus{?offset}]
+## Бонусы [/book/{id}/bonus{?offset}]
 Бонусы букмекерa
 
 ### Бонусы[GET]
@@ -1735,7 +1732,7 @@ HOST: http://api.neverbet.com/
 + Response 200 (application/json)
 
         {
-            "about":"Надежная букмекерская контора. Предлагает одну из самых широких линий для ставок на футбол"
+            "about":"Надежная букмекерская контора. Предлагает одну из самых широких линий для ставок на футбол",
             "rules":{
                 "Ввод/вывод денежных средств":"Очень быстрый расчет ставок, сразу после определения результата."
             }
@@ -1871,7 +1868,7 @@ HOST: http://api.neverbet.com/
 + Parameters
     + id: 12 (required, number) - ID турнира 
 
-+ Request (application/json)
++ Request
 
     + Body
 
@@ -1944,21 +1941,28 @@ HOST: http://api.neverbet.com/
                         "yellow":4,
                         "red":1
                     },
-                "corners": 12
+                    "corners": 12
+                }
             }
         ]
 
-### Добавить в избронное [POST /favorite/games/{id}]
+### Добавить в избронное [POST /favorite/games]
 
-+ Parameters
-    + id: 12 (required, number) - ID матча 
++ Request
+
+    + Body
+
+            +id: 12 (required, number) - ID матча 
 
 + Response 202
 
-### Удалить  [DELETE /favorite/games/{id}]
+### Удалить  [DELETE /favorite/games]
 
-+ Parameters
-    + id: 12 (required, number) - ID матча 
++ Request
+
+    + Body
+
+            +id: 12 (required, number) - ID матча 
 
 + Response 204
 
@@ -1983,17 +1987,23 @@ HOST: http://api.neverbet.com/
             }
         ]
 
-### Добавить в избронное [POST /favorite/turnirs/{id}]
+### Добавить в избронное [POST /favorite/turnirs]
 
-+ Parameters
-    + id: 12 (required, number) - ID турнира 
++ Request
+
+    + Body
+
+            +id: 12 (required, number) - ID матча 
 
 + Response 202
 
-### Удалить  [DELETE /favorite/turnirs/{id}]
+### Удалить  [DELETE /favorite/turnirs]
 
-+ Parameters
-    + id: 12 (required, number) - ID турнира 
++ Request
+
+    + Body
+
+            +id: 12 (required, number) - ID матча 
 
 + Response 204
 
@@ -2017,17 +2027,23 @@ HOST: http://api.neverbet.com/
             }
         ]
 
-### Добавить в избронное [POST /favorite/teams/{id}]
+### Добавить в избронное [POST /favorite/teams]
 
-+ Parameters
-    + id: 12 (required, number) - ID команды 
++ Request
+
+    + Body
+
+            +id: 12 (required, number) - ID матча 
 
 + Response 202
 
-### Удалить  [DELETE /favorite/teams/{id}]
+### Удалить  [DELETE /favorite/teams]
 
-+ Parameters
-    + id: 12 (required, number) - ID команды 
++ Request
+
+    + Body
+
+            +id: 12 (required, number) - ID матча 
 
 + Response 204
 
@@ -2073,17 +2089,23 @@ HOST: http://api.neverbet.com/
                 ]
             }
         ]
-### Добавить в избронное [POST /favorite/feeds/{id}]
+### Добавить в избронное [POST /favorite/feeds]
 
-+ Parameters
-    + id: 12 (required, number) - ID публикации 
++ Request
+
+    + Body
+
+            +id: 12 (required, number) - ID матча 
 
 + Response 202
 
-### Удалить  [DELETE /favorite/feeds/{id}]
+### Удалить  [DELETE /favorite/feeds]
 
-+ Parameters
-    + id: 12 (required, number) - ID публикации 
++ Request
+
+    + Body
+
+            +id: 12 (required, number) - ID матча 
 
 + Response 204
 
@@ -2133,42 +2155,47 @@ HOST: http://api.neverbet.com/
     + type: (string) - тип приватности группы public / private
     + name: (string) - название группы на русском.
 
-+ Request (application/json)
++ Request
 
     + Body
 
-            {
-                "type": "public",
-                "name": "Барселона"
-            }
+            + type:  "public",
+            + name: "Барселона"
+            
 
 + Response 201
 
 
-### Редактировать группу [PUT /groups/{id}]
+### Редактировать группу [PUT /groups]
 + Arguments
     + type: (string) - тип приватности группы public / private
     + name: (string) - название группы на русском.
-
-+ Parameters
     + id: 12 (required, number) - ID группы 
     
 + Request (application/json)
 
     + Body
 
-            {
+            
+                "id": 12
                 "type": "public",
                 "name": "Барселона"
-            }
+            
 
 + Response 202
 
 
-### Удалить  [DELETE /groups/{id}]
+### Удалить  [DELETE /groups]
 
-+ Parameters
++ Arguments
+
     + id: 12 (required, number) - ID группы 
+    
++ Request (application/json)
+
+    + Body
+
+            "id": 12
 
 + Response 204
 
@@ -2331,25 +2358,25 @@ HOST: http://api.neverbet.com/
                 ]
         }
 
-### Редактировать запись [PUT /group/{id}/feeds/{post_id}]
+### Редактировать запись [PUT /group/{id}/feeds]
 + Arguments
     + body: (string) - сообщение
     + tags: (Array) - массив тегов к публикации
+    + id: 12 (required, number) - ID публикации
 
 + Parameters
     + id: 12 (required, number) - ID группы 
-    + post_id: 12 (required, number) - ID публикации
+
     
-+ Request (application/json)
++ Request
 
     + Body
 
-            {
-                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
-                "tags": [
+            + id: 12
+            + body: "<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+            + tags": [
                     "Вашингтон"
                 ]
-            }
 
 + Response 202
 
@@ -2372,12 +2399,20 @@ HOST: http://api.neverbet.com/
         }
 
 
-### Удалить запись [DELETE /group/{id}/feeds/{post_id}]
-
+### Удалить запись [DELETE /group/{id}/feeds]
++ Arguments
+    + id: 12 (required, number) - ID публикации
+    
 + Parameters
     + id: 12 (required, number) - ID группы
-    + post_id: 12 (required, number) - ID публикации
 
+
++ Request
+
+    + Body
+    
+            + id: 12
+            
 + Response 204
 
 
@@ -2495,7 +2530,7 @@ HOST: http://api.neverbet.com/
                     "turnirs":[
                         {
                             "name":"Примера",
-                            "icon":,"//img.neverbet.com/country/ES.png",
+                            "icon":"//img.neverbet.com/country/ES.png",
                             "win":13,
                             "lost":5
                         }
@@ -2693,25 +2728,29 @@ HOST: http://api.neverbet.com/
     + body: (string) - сообщение
     + tags: (Array) - массив тегов к публикации
 
-+ Request (application/json)
++ Request 
 
     + Body
 
-            {
-                "body":"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
-                "tags": [
+            + body:"<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+            + tags: [
                     "Вашингтон"
                 ]
-            }
 
 + Response 201
 
 
-### Удалить ставку  [DELETE /friends/{id}]
+### Удалить ставку  [DELETE /odds]
 
-+ Parameters
++ Arguments
     + id: 12 (required, number) - ID ползователя 
 
++ Request 
+
+    + Body
+
+            + id: 12
+            
 + Response 204
 
 ## Турниры [/odds/turnirs]
