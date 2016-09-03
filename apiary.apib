@@ -156,6 +156,45 @@ HOST: http://api.neverbet.com/
               "refresh": "3c80695cd9eff8714486a9e095bf6444",
               "name": "Dmitriy Alexashov"
             }
+
+##  Авторизация VK [/auth/vk] 
+
+### Авторизация пользователя [GET]
+
++ Arguments
+    + refresh (string) - ключ для обновления токена
+    + id (number) - ID пользователя
+    + X-Access-Token (string) - токен доступа к API
+    + rating (number) - рейтинг пользователя
+    + status (string) - статус последних 5 ставок 
+    + country (string) - страна
+    + city (string) - город
+    + thumb (string) - путь к аватарке пользователя
+    + rate (number) - рейтинг пользователя
+    + bets (number)- кол-во ставок
+    + name (string) - имя пользователя
+
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            X-Access-Token: fc5b2b8360c3e2155c336c24a0c19650
+    
+    + Body
+
+            {
+              "rating": 0,
+              "status": null,
+              "country": null,
+              "city": null,
+              "thumb": "https://lh5.googleusercontent.com/-jXdw6robJ50/AAAAAAAAAAI/AAAAAAAAAQ4/BNv5oiatbMk/photo.jpg",
+              "rate": 2,
+              "bets": 0,
+              "id": 2,
+              "refresh": "3c80695cd9eff8714486a9e095bf6444",
+              "name": "Dmitriy Alexashov"
+            }
             
 ##  Профиль пользователя [/auth/profile] 
 
@@ -177,13 +216,8 @@ HOST: http://api.neverbet.com/
     + google_link (string) - ссылка на Google+
     + google_id (number) - Google ID OAuth
     
-
 + Response 200 (application/json)
 
-    + Headers
-    
-            X-Access-Token: fc5b2b8360c3e2155c336c24a0c19650
-    
     + Body
 
             {
