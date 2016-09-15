@@ -95,8 +95,8 @@ HOST: http://api.neverbet.com/
 ### Выход [DELETE]
 + Arguments
 
-    + key:  (string) - ключ для обновления токена
     + X-Access-Token (string) - токен доступа к API
+    + key (string) - ключ для обновления токена
 
 + Request 
 
@@ -1579,7 +1579,7 @@ HOST: http://api.neverbet.com/
 # Group Лента
 
 ## Лента [/feeds/{?offset}]
-Подробное описание туринира
+Возвращает последние 10 новостей.
 
 ### Публикации [GET]
 + Arguments
@@ -1597,7 +1597,7 @@ HOST: http://api.neverbet.com/
     + tags: (Array) - массив тегов к публикации
         
 + Parameters
-    + offset: 12 (number) - отступ для выборки
+    + offset: 10 (number) - отступ для выборки
 
 + Response 200 (application/json)
 
@@ -1687,6 +1687,8 @@ HOST: http://api.neverbet.com/
 
 + Arguments
     + auth: (string) - тип приватности публикации public/folowers/friends/private
+    + title: (string) - заголовок публикации
+    + anons: (string) - анонс публикации
     + body: (string) - текстовое сообщение публикации
     + tags: (Array) - массив текстовых тегов
     
@@ -1696,6 +1698,8 @@ HOST: http://api.neverbet.com/
 
             {
                 "auth": "public",
+                "title": "Лучшие моменты НХЛ",
+                "anons": "Полный обзорв всех лучших цитат 2016 года по НХЛ",
                 "body": "<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
                 "tags": [
                     "Вашингтон"
@@ -1715,9 +1719,12 @@ HOST: http://api.neverbet.com/
     + Body
 
             {
+                "auth": "private",
                 "body": "<img src='//img.neverbet.com/feeds/u56sdf23gf.jpg'/>Русский форвард #Вашингтона оформил 14-й хет-трик за карьеру в НХЛ",
+                "title": "Лучшие моменты НХЛ",
+                "anons": "Полный обзорв всех лучших цитат 2015/2016 года по НХЛ",
                 "tags": [
-                    "Вашингтон"
+                    "Вашингтон","НХЛ",
                 ]
             }
     
@@ -2271,6 +2278,7 @@ HOST: http://api.neverbet.com/
 + Arguments
     + id: (number) - ID турнира.
     + name: (string) - название турнира на русском.
+    + country: (string len=2) - IATA код страны
     + icon: (string) - адрес иконки турнира
 
 + Response 200 (application/json)
@@ -2279,6 +2287,7 @@ HOST: http://api.neverbet.com/
             {
                 "id" : 12,
                 "name": "Примьер-Лига",
+                "country": "ES",
                 "icon": "//img.neverbet.com/country/EN.png"
             }
         ]
@@ -2311,6 +2320,7 @@ HOST: http://api.neverbet.com/
 + Arguments
     + id: (number) - ID команды.
     + name: (string) - название команды на русском.
+    + country: (string len=2) - IATA код страны
     + icon: (string) - адрес иконки команды
 
 + Response 200 (application/json)
@@ -2319,11 +2329,12 @@ HOST: http://api.neverbet.com/
             {
                 "id" : 12,
                 "name": "Барселона",
+                "country": "ES",
                 "icon": "//img.neverbet.com/team/barcelona.png"
             }
         ]
 
-### Добавить в избронное [POST /favorite/teams]
+### Добавить в избранное [POST /favorite/teams]
 
 + Request
 
@@ -3220,3 +3231,126 @@ HOST: http://api.neverbet.com/
                 "href":"www.aviapoisk.kz/?utm_source=nb_mob"
             }
         ]
+        
+# Group Корзина
+
+## Корзина ставок [/betslip]
+Выбранные события в Матч-центре или на экране Матч попадают в Корзину для дальнейших действий.
+
+### Список ставок [GET /betslip]
++ Arguments
+    + id: (number) - ID события
+    + type: (string) - код события
+    + type: (string) - тип соревнования football/tennis/box/basketball
+    + game: (object) - матч
+        + id: (number) - ID матча
+        + dtime: (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC)
+        + status: wait (string) - wait, live, cancel, fin
+        + home: (Team) - первая команда 
+            + id: (number) - ID команды
+            + name: (string) - название команды на русском
+            + logo: (string) - ссылка на лого команды
+            + country: (string len=2) - IATA код страны команды
+        + guest: (Team) - вторая команда
+            + id: (number) - ID команды
+            + name: (string) - название команды на русском
+            + logo: (string) - ссылка на лого команды
+            + country: (string len=2) - IATA код страны команды
+    + descr: (string) - условия выйгрыша
+    + book_id: (number) - ID букмекер
+    + coef: (float) коэффициент события
+
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id":12,
+                "code":"P1",
+                "type":"football",
+                "game":{
+                    "id":213,
+                    "dtime": "2016.02.05 20:00:00",
+                    "status": "live",
+                    "home": {
+                      "id": 22,
+                      "name": "Барселона",
+                      "country": "ES",
+                      "cards": {
+                        "yellow": 2,
+                        "red": 0
+                      },
+                      "corners": 2
+                    },
+                    "guest": {
+                      "id": 21,
+                      "name": "Рома",
+                      "country": "ES",
+                      "cards": {
+                        "yellow": 4,
+                        "red": 1
+                      },
+                      "corners": 12
+                    },
+                },
+                "descr": "Исход победа первой",
+                "book_id": 3,
+                "coef": 1.12
+            }
+        ]
+        
+### Добавить событие [PUT]
+Добавить событие в корзину пользователя
+
++ Arguments
+
+    + game_id: (number) - ID матча
+    + book_id: (number) - ID букмеккера
+    + code: (string) - код события
+
++ Request 
+
+    + Body
+    
+            game_id: 234,
+            book_id: 2,
+            code: "X2"
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+            id: (number) - ID события в корзине пользователя
+
+    + Body
+
+            {
+                "status":"ok",
+                "id": 234
+            }  
+
+### Удалить событие [DELETE]
+Удалить событие из корзины пользователя
+
++ Arguments
+
+    + id: (number) - номер события
+
++ Request 
+
+    + Headers
+    
+            X-Access-Token: fc5b2b8360c3e2155c336c24a0c19650
+
+    + Body
+    
+            id: 12
+
+        
++ Response 200 (application/json)
+
+
+    + Body
+
+            {
+                "status":"ok"
+            }
