@@ -816,18 +816,19 @@ HOST: http://api.neverbet.com/
         }
 
 ## Чат [/game/{game_id}/chat]
-Информация о чате матча
+Это групповой XMPP чат с адресом game{id матча}@conference.neverbet.com 
+Подробнее в разделе ЧАТ
 
 ### Чат [GET]
 + Arguments
-    + id: (number) -  ID чата матча
+    + id: (string) -  ID чата матча
 + Parameters
     + game_id: 12 (required, number) - ID команды integer
 
 + Response 200 (application/json)
 
         {
-            "id": 123
+            "id": "game12@conference.neverbet.com"
         }
 
 ## Голосование [/game/{game_id}/vote/{?type}]
@@ -3354,3 +3355,24 @@ HOST: http://api.neverbet.com/
             {
                 "status":"ok"
             }
+            
+# Group Чат
+
+## Чат 
+
+Чат работает по протаколу XMPP на базе сервера eJabberd 16.04
+
+Хост: neverbet.com
+
+Порт: 5222
+
+### Отправка изображения
+
+Для отправки файлов используется метод http_upload ХEP-0363
+
+### Групповой чат
+
+Адрес для комнат (группового чата) conference.neverbet.com
+
+Раздел чат в Матче / Матч-центра - это групповой чат с адресом game{id матча}@conference.neverbet.com 
+Например, game15@conference.neverbet.com
