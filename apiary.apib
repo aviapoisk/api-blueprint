@@ -158,7 +158,7 @@ HOST: http://api.neverbet.com/
             }
 ##  Авторизация Facebook [/auth/facebook] 
 
-### Авторизация пользователя [GET]
+### WEB Авторизация пользователя [GET]
 
 + Arguments
     + refresh (string) - ключ для обновления токена
@@ -194,10 +194,51 @@ HOST: http://api.neverbet.com/
               "refresh": "3c80695cd9eff8714486a9e095bf6444",
               "name": "Dmitriy Alexashov"
             }
+### SDK Авторизация пользователя [POST]
+Если используется SDK для авторизации, необходимо отправить полученный токен  
+
++ Arguments
+    + refresh (string) - ключ для обновления токена
+    + id (number) - ID пользователя
+    + X-Access-Token (string) - токен доступа к API
+    + rating (number) - рейтинг пользователя
+    + status (string) - статус последних 5 ставок 
+    + country (string) - страна
+    + city (string) - город
+    + thumb (string) - путь к аватарке пользователя
+    + rate (number) - рейтинг пользователя
+    + bets (number)- кол-во ставок
+    + name (string) - имя пользователя
++ Request 
+
+    + Body
+    
+            token: "adfasdff3frfgaerg245gbaefdgfg"
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            X-Access-Token: fc5b2b8360c3e2155c336c24a0c19650
+    
+    + Body
+
+            {
+              "rating": 0,
+              "status": null,
+              "country": null,
+              "city": null,
+              "thumb": "https://lh5.googleusercontent.com/-jXdw6robJ50/AAAAAAAAAAI/AAAAAAAAAQ4/BNv5oiatbMk/photo.jpg",
+              "rate": 2,
+              "bets": 0,
+              "id": 2,
+              "refresh": "3c80695cd9eff8714486a9e095bf6444",
+              "name": "Dmitriy Alexashov"
+            }
 
 ##  Авторизация VK [/auth/vk] 
 
-### Авторизация пользователя [GET]
+### WEB Авторизация пользователя [GET]
 
 + Arguments
     + refresh (string) - ключ для обновления токена
@@ -212,6 +253,47 @@ HOST: http://api.neverbet.com/
     + bets (number)- кол-во ставок
     + name (string) - имя пользователя
 
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            X-Access-Token: fc5b2b8360c3e2155c336c24a0c19650
+    
+    + Body
+
+            {
+              "rating": 0,
+              "status": null,
+              "country": null,
+              "city": null,
+              "thumb": "https://lh5.googleusercontent.com/-jXdw6robJ50/AAAAAAAAAAI/AAAAAAAAAQ4/BNv5oiatbMk/photo.jpg",
+              "rate": 2,
+              "bets": 0,
+              "id": 2,
+              "refresh": "3c80695cd9eff8714486a9e095bf6444",
+              "name": "Dmitriy Alexashov"
+            }
+### SDK Авторизация пользователя [POST]
+Если используется SDK для авторизации, необходимо отправить полученный токен  
+
++ Arguments
+    + refresh (string) - ключ для обновления токена
+    + id (number) - ID пользователя
+    + X-Access-Token (string) - токен доступа к API
+    + rating (number) - рейтинг пользователя
+    + status (string) - статус последних 5 ставок 
+    + country (string) - страна
+    + city (string) - город
+    + thumb (string) - путь к аватарке пользователя
+    + rate (number) - рейтинг пользователя
+    + bets (number)- кол-во ставок
+    + name (string) - имя пользователя
++ Request 
+
+    + Body
+    
+            token: "adfasdff3frfgaerg245gbaefdgfg"
 
 + Response 200 (application/json)
 
@@ -407,59 +489,58 @@ HOST: http://api.neverbet.com/
         + id: 21 (number) - ID турнира.
         + name: Примера (string) - название турнира
         + country: ES (string) - страна турнира
-    + games:
-        + id: 11 (number) - ID матча.
-        + dtime: 2016.02.05 20:00:00 (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
-        + status: wait (string) - wait, live, cancel, fin
-        + info:
-            + score: 3-2 (string) - счет матча
-            + part: 2 (number) - тайм
-            + minute: 86 (number) - минута матча
-            + place: Сюьдад де Валенсия (string) - стадион
-            + judges: (Array) - судьи  матча
-        + home: (Team) - первая команда
-            + id: 22 (number) - ID команды.
-            + name: Барселона (string) - название команды на русском.
-            + logo: //img.neverbet.com/barcelona.png (string) -  ссылка на лого команды.
-            + country: ES (string len=2) - IATA код страны команды.
-            + cards - карточки
-                + yellow: 2 (number) - желтые карты
-                + red: 0 (number) - красные карты
-            + corners: 2  (number) - угловые
-        + guest: (Team) - вторая команда
-            + id: 21 (number) - ID команды.
-            + name: Рома (string) - название команды на русском.
-            + logo: //img.neverbet.com/roma.png (string) -  ссылка на лого команды.
-            + country: IT (string len=2) - IATA код страны команды.
-            + cards - карточки
-                + yellow: 2 (number) - желтые карты
-                + red: 0 (number) - красные карты
-            + corners: 2  (number) - угловые
-        + odds - ставки / коэффициенты
-            + P1 : 1.2 (float) - победа первой команды 
-            + X: 2.2 (float) - ничья 
-            + P2: 2.0 (float) - победа второй команды 
-            + TOTAL: (Object)  - тотал
-                "2.5": (Array[2]) - значение [больше чем значение, меньше чем значение] 
-        + bets - статистика ставок
-            + gamers: (Array) - мнение игроков
-            + books: (Array) - мнение биукмеккров
-            + stats: (Array) - мнение по статистике
-        + text: (Array) - текстовая трансляция 
-            + [минута, номер команды, событие, игрок]. События: SW-замена, YC-желтая карта, RC-красная карта, CR- угловой, GL-гол, PT-пенналти, AG-автогол,DN - удаление
-        + feeds: (Array) - массив публикаций
-            + id: 12 (number) - ID номер публикации 
-            + author: (Author) - автор публикации
-                + type: owner (string) - тип авторства: owner - владелец, repost - перепубликации
-                + id: 12 (number) - ID автора
-                + rate: 33 (number) - рейтинг авторa
-                + name: Костян Филатов (string) - имя автора
-                + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
-            + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
-            + comments: 12 (number) - кол-во комментариев к публикации
-            + rate: 3 (number) - рейтинг публикации
-            + body: (string) - сообщение
-            + tags: (Array) - массив тегов к публикации
+    + id: 11 (number) - ID матча.
+    + dtime: 2016.02.05 20:00:00 (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC).
+    + status: wait (string) - wait, live, cancel, fin
+    + info:
+        + score: 3-2 (string) - счет матча
+        + part: 2 (number) - тайм
+        + minute: 86 (number) - минута матча
+        + place: Сюьдад де Валенсия (string) - стадион
+        + judges: (Array) - судьи  матча
+    + home: (Team) - первая команда
+        + id: 22 (number) - ID команды.
+        + name: Барселона (string) - название команды на русском.
+        + logo: //img.neverbet.com/barcelona.png (string) -  ссылка на лого команды.
+        + country: ES (string len=2) - IATA код страны команды.
+        + cards - карточки
+            + yellow: 2 (number) - желтые карты
+            + red: 0 (number) - красные карты
+        + corners: 2  (number) - угловые
+    + guest: (Team) - вторая команда
+        + id: 21 (number) - ID команды.
+        + name: Рома (string) - название команды на русском.
+        + logo: //img.neverbet.com/roma.png (string) -  ссылка на лого команды.
+        + country: IT (string len=2) - IATA код страны команды.
+        + cards - карточки
+            + yellow: 2 (number) - желтые карты
+            + red: 0 (number) - красные карты
+        + corners: 2  (number) - угловые
+    + odds - ставки / коэффициенты
+        + P1 : 1.2 (float) - победа первой команды 
+        + X: 2.2 (float) - ничья 
+        + P2: 2.0 (float) - победа второй команды 
+        + TOTAL: (Object)  - тотал
+            "2.5": (Array[2]) - значение [больше чем значение, меньше чем значение] 
+    + bets - статистика ставок
+        + gamers: (Array) - мнение игроков
+        + books: (Array) - мнение биукмеккров
+        + stats: (Array) - мнение по статистике
+    + text: (Array) - текстовая трансляция 
+        + [минута, номер команды, событие, игрок]. События: SW-замена, YC-желтая карта, RC-красная карта, CR- угловой, GL-гол, PT-пенналти, AG-автогол,DN - удаление
+    + feeds: (Array) - массив публикаций
+        + id: 12 (number) - ID номер публикации 
+        + author: (Author) - автор публикации
+            + type: owner (string) - тип авторства: owner - владелец, repost - перепубликации
+            + id: 12 (number) - ID автора
+            + rate: 33 (number) - рейтинг авторa
+            + name: Костян Филатов (string) - имя автора
+            + thumb: "//img.neverbet.com/thumb/u56.jpg" (string) - адрес к аватарке пользователя
+        + dtime: 2016.01.05 20:30 (DateTime) - дата и время публикации в формате Y.m.d H:m 
+        + comments: 12 (number) - кол-во комментариев к публикации
+        + rate: 3 (number) - рейтинг публикации
+        + body: (string) - сообщение
+        + tags: (Array) - массив тегов к публикации
 + Parameters
     + id: 11 (required, integer) - ID матча 
 + Response 200 (application/json)
@@ -751,18 +832,16 @@ HOST: http://api.neverbet.com/
 
 ### Ставки на матч [GET]
 + Arguments
-    + P1: (Array) - Победа 1-ой команды - [ [ID букмекера, коэффициент букмекера] ].
-    + Х: (Array) - Ничья - [ [ID букмекера, коэффициент букмекера] ]
-    + Р2:  (Array) - Победа 2-ой команды - [ [ID букмекера, коэффициент букмекера] ]
-    + 1Х: Победа 1-ой команды или ничья - [ [ID букмекера, коэффициент букмекера] ].
-    + groups (Array) - группы ставок
-        + name: Точный счет (string) - название группы
-        ... остальные атрибуты строки в группе. Название атрибута - название строки, значение массив из  [ID букмекера, коэффициент букмекера] 
-        Тотал больше/меньше = [ массив больше , массив меньше ]
-    + books -  букмекеры
+    + groups: (Array) - группы ставок
+        + name: (string) - название группы
+        + cols: (Array) - массив названий колонок
+        + bets: ставки
+            ID букмекера:
+                код ставки : коэффициент
+    + books - список букмекеров
         + id: 12 (number) - ID букмекера 
         + name: FairPlay (string) - Имя букмекера
-        + logo: //img.neverbet.com/img.neverbet.com/books/FairPlay.png (string) - ссылка на лого букмекера.
+        + logo: //img.neverbet.com/books/FairPlay.png (string) - ссылка на лого букмекера.
         
 + Parameters
     + game_id: 12 (required, number) - ID команды integer
@@ -770,48 +849,84 @@ HOST: http://api.neverbet.com/
 + Response 200 (application/json)
 
         {
-            "P1": [[1,1.0],[2,1.1]],
-            "X": [[1,1.0],[2,1.1]],
-            "P2": [[1,1.0],[2,1.1]],
-            "1X": [[1,1.0],[2,1.1]],
-            "X2": [[1,1.0],[2,1.1]],
-            "12": [[1,1.0],[2,1.1]],
-            "groups":[
-                {
-                    "name": "Точный счет",
-                    "1:0":[[1,2.1],[2,2.2],[3,1.8]],
-                    "1:1":[[1,2.1],[2,1.6],[3,2.0]],
-                    "2:0":[[1,2.1],[2,2.1]],
-                    "1:2":[[1,2.1],[2,1.2]]
-                },
-                {
-                    "name":"Больше/Меньше",
-                    "0.5":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]],
-                    "1":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]],
-                    "1.5":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]],
-                },
-                {
-                    "name":"Тотал матча",
-                    "Чет":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]],
-                    "Нечет":[[[[1,1.0],[2,1.1]]],[[[1,1.0],[2,1.1]]]]
-                }
-            ],
             "books":[
                 {
-                    "id":1,
-                    "name":"Olimp",
-                    "logo":"//img.neverbet.com/books/Olimp.png"
+                    "id": 1,
+                    "name":"PariMatch",
+                    "logo":"//img.neverbet.com/books/1.png"
                 },
                 {
                     "id":2,
-                    "name":"LEON",
-                    "logo":"//img.neverbet.com/books/leon.png"
+                    "name":"Olimp",
+                    "logo":"//img.neverbet.com/books/2.png"
                 },
                 {
                     "id":3,
-                    "name":"FairPlay",
-                    "logo":"//img.neverbet.com/books/FairPlay.png"
+                    "name":"Leon",
+                    "logo":"//img.neverbet.com/books/3.png"
+                },
+                {
+                    "id":4,
+                    "name":"Profit",
+                    "logo":"//img.neverbet.com/books/4.png"
                 }
+            ],
+            "groups":[
+                {
+                    "name":"Исход матча",
+                    "cols":[
+                        "П1",
+                        "Х",
+                        "П2"
+                    ],
+                    "bets":{
+                        1:{ 
+                            "p1":2.38,
+                            "x":3.5,
+                            "p2":2.6
+                        },
+                        2:{
+                            "p1":2.38,
+                            "x":3.5,
+                            "p2":2.6
+                        },
+                        3:{
+                            "p1":2.38,
+                            "x":3.5,
+                            "p2":2.6
+                        },
+                        4:{
+                            "p1":2.38,
+                            "x":3.5,
+                            "p2":2.6
+                        }
+                    }
+                },
+                {
+                    "name":"Тотал матча",
+                    "cols":[
+                        "Чет",
+                        "Нечет"
+                    ],
+                    "bets":{
+                        1:{
+                            "total2":3.5,
+                            "total3":2.6
+                        },
+                        2:{
+                            "total2":3.5,
+                            "total3":2.6
+                        },
+                        3:{
+                            "total2":3.5,
+                            "total3":2.6
+                        },
+                        4:{
+                            "total2":3.5,
+                            "total3":2.6
+                        }
+                    }
+                },
             ]
         }
 
@@ -2279,8 +2394,9 @@ HOST: http://api.neverbet.com/
 + Arguments
     + id: (number) - ID турнира.
     + name: (string) - название турнира на русском.
-    + country: (string len=2) - IATA код страны
-    + icon: (string) - адрес иконки турнира
+    + country: (string) - название страны
+    + icon: (string) - адрес иконки страны
+    + logo: (string) - адрес лого турнира
 
 + Response 200 (application/json)
 
@@ -2288,8 +2404,9 @@ HOST: http://api.neverbet.com/
             {
                 "id" : 12,
                 "name": "Примьер-Лига",
-                "country": "ES",
-                "icon": "//img.neverbet.com/country/EN.png"
+                "country": "Испания",
+                "icon": "//img.neverbet.com/country/EN.png",
+                "logo": "//img.neverbet.com/turnir/primera.png"
             }
         ]
 
