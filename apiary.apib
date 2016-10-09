@@ -1856,7 +1856,7 @@ HOST: http://api.neverbet.com/
 ## Комментарии [/feed/{id}/comments]
 Комментарии к Публикации
 
-### Комментарии [GET /feed/{id}/comments]
+### Комментарии [GET /feed/{id}/comments/{?offset}]
 + Arguments
     + id: 12 (number) - ID номер публикации 
     + author: (Author) - автор публикации
@@ -1869,6 +1869,7 @@ HOST: http://api.neverbet.com/
         
 + Parameters
     + id: 12 (required, number) - ID публикации 
+    + offset: 12 (number) - отступ для выборки
 
 + Response 200 (application/json)
 
@@ -1908,6 +1909,27 @@ HOST: http://api.neverbet.com/
 
 + Response 204
 
+## Голосовать за пост [/feed/{id}/vote]
++/- рейтинг поста
+
+### Голосовать за пост [POST /feed/{id}/vote]
+
++ Parameters
+    + id: 12 (required, number) - ID публикации 
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "rate": 1 - если больше 0 то плюс, если меньше то минус к рейтингу
+            }
+    
++ Response 200
+
+        {
+           "status":"OK"
+        }
 
 
 # Group Рейтинг букмекеров
@@ -3358,8 +3380,9 @@ HOST: http://api.neverbet.com/
 ### Список ставок [GET /betslip]
 + Arguments
     + id: (number) - ID события
-    + type: (string) - код события
+    + code: (string) - код события
     + type: (string) - тип соревнования football/tennis/box/basketball
+    + status: (number) - статус события (0-активна, 1)
     + game: (object) - матч
         + id: (number) - ID матча
         + dtime: (DateTime) - время проведения матча в формате YY.mm.dd H:m:s (? timezone UTC)
