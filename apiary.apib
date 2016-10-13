@@ -669,13 +669,15 @@ HOST: http://api.neverbet.com/
         + (string) : (Array[2]) - заголовок строки : [значение хозеяв, значение для гостей]
     + groups: (Array) - дополнительная статистика
         + name: "Послдение игры Леванте" (string)  - название группы
-        + type: (string) "tab" - тип группы. Может быть 3 типов - list,tabs и table 
+        + type: (string) "tab" - тип группы. Может быть 3 типа - list, tabs и table 
         + tabs: (Array) - только если тип tab
             + name: "В сезоне"(string) - название таба
             + rows: (Array) - строки в табе
                 + (Array[5]) - [id матча, дата, название команды 1, счет, название команды 2]
-        +table: (Array) - только если тип table
+        + table: (Array) - только если тип table
             + (Array[10]) - [id команды, код страны, название команды, всего игр, выйграно, ничьи, проиграно, голов забито, голов пропущенно, очков]
+        + rows: (Array) - только если тип list
+            + (Array[5]) - [id матча, дата, название команды 1, счет, название команды 2]
 + Parameters
     + game_id: 12 (required, number) - ID команды integer
 
@@ -725,6 +727,16 @@ HOST: http://api.neverbet.com/
                         [67,"ES","Леванте Сити",16,9,3,4,16,9,6]
                     ]
                 },
+                {
+                    "name": "Личные встречи",
+                    "type": "list",
+                    "rows":[
+                        [12,"2016.01.05","Вестерн Сити","1:0","Леванте"],
+                        [23,"2016.02.07","Леванте","3:2","Арсенал"],
+                        [56,"2016.03.15","Арсенал","2:0","Леванте"],
+                        [18,"2016.04.23","Вестерн Сити","3:1","Леванте"]
+                    ]
+                }
             ]
         }
         
@@ -1010,49 +1022,68 @@ HOST: http://api.neverbet.com/
 # Group Команда
 
 ## Список команд [/teams]
-Возвращает список команд по группам
+Возвращает список команд
 
-### Список [GET]
+
+### Список [GET /teams/{?country}]
+Если передать параметр country, то будет показан список команд в стране. Иначе список популярных команд и стран
+
 + Arguments
-    + name: Национальные (string) - название группы.
-    + groups: (Array) - список подгрупп
-    + icon: "//img.neverbet.com/country/EN.png" (string) - адрес иконки группы
-    + teams: (Array) - список команд в группе/подгруппе
+    + national: (Array) - список стран
+        + name: Испания (string) - название страны на русском.
+        + count: 9 (number) - кол-во команд в стране
+        + id: ES (string len=2) - IATA код страны команды.
+    + popular: (Array) - список популярных команд
         + id: 12 (number) - ID команды.
         + name: Барселона (string) - название команды на русском.
         + logo: //img.neverbet.com/mini/barcelona.png (string) - ссылка на лого команды.
++ Parameters
+    + country: KZ (string len=2) - передаем IATA код страны 
+
++ Response 200 (application/json)
+
+        {
+            "national": [
+                {
+                    "name": "Австралия",
+                    "count": 9,
+                    "id": "AU"
+                },
+            ],
+            "popular": [
+                {
+                    "name": "Спартак",
+                    "logo": "//img.neverbet.com/team/spartak.jpeg",
+                    "id": 861
+                }
+            ]
+        }
+        
+### Поиск команды [POST]
+Поиск команды по названию
+
++ Arguments
+    + id: 12 (number) - ID команды.
+    + name: Барселона (string) - название команды на русском.
+    + logo: //img.neverbet.com/mini/barcelona.png (string) - ссылка на лого команды.
+    + icon: //img.neverbet.com/country/RU.png - иконка страны.
+    + country: RU (string len=2) - IATA код страны команды.
+
++ Parameters
+    + keyword: Спартак (string) - передаем часть название команды 
 
 + Response 200 (application/json)
 
         [
-            {
-                "name": "Популярные",
-                "teams":[
-                    {
-                        "id" : 12,
-                        "name": "Барселона",
-                        "logo": "//img.neverbet.com/team/mini/barcelona.png",
-                    }
-                ]
-            },
-            {
-                "name": "Национальные",
-                "groups":[
-                    {
-                        "name": "Англия",
-                        "icon": "//img.neverbet.com/country/EN.png",
-                        "teams":[
-                            {
-                                "id" : 12,
-                                "name": "Барселона",
-                                "logo": "//img.neverbet.com/team/mini/barcelona.png",
-                            }
-                        ]
-                    }
-                ]
-            }
+                {
+                    "name": "Спартак",
+                    "logo": "//img.neverbet.com/team/spartak.jpeg",
+                    "icon": "//img.neverbet.com/country/RU.png",
+                    "country": "RU",
+                    "id": 861
+                }
         ]
-        
+
 ## Команда [/team/{team_id}]
 Подробное описание команды
 
@@ -1293,7 +1324,7 @@ HOST: http://api.neverbet.com/
             }
         ]
         
-## Матчи [/team/{team_id}/games/{?season}{?turnir_id}]
+## Матчи [/team/{team_id}/games/{?season}{?turnir_id}{?type}]
 Матчи в которых команда принимает/принимала участие
 
 ### Матчи [GET]
@@ -1338,7 +1369,8 @@ HOST: http://api.neverbet.com/
 + Parameters
     + team_id: 12 (required, number) - ID команды integer
     + season: 2016 (string) - сезон для выборки, передается год окончание сезона
-    + turnir_id: 12 (number) - ID турнира
+    + turnir_id: 12 (number) - ID турнира для выборки
+    + type: past (string) - для переключения прошедшие/предстоящие матчи. Принимает значения "past" и "next". По умолчанию "next"
 
 + Response 200 (application/json)
 
@@ -1591,7 +1623,7 @@ HOST: http://api.neverbet.com/
                 }
         }
         
-## Матчи [/turnir/{turnir_id}/games/{?season}{?tour_id}]
+## Матчи [/turnir/{turnir_id}/games/{?season}{?tour_id}{?type}]
 Матчи в турнире
 
 ### Матчи [GET]
@@ -1636,7 +1668,8 @@ HOST: http://api.neverbet.com/
 + Parameters
     + turnir_id: 12 (required, number) - ID команды integer
     + season: 2016 (string) - сезон для выборки, передается год окончание сезона
-    + tour_id: 12 (number) - ID турнира
+    + tour_id: 12 (number) - ID тура
+    + type: past (string) - для переключения прошедшие/предстоящие матчи. Принимает значения "past" и "next". По умолчанию "next"
 
 + Response 200 (application/json)
 
@@ -3136,8 +3169,15 @@ HOST: http://api.neverbet.com/
         + dtime: (DateTime) - время и дата ставки
         + options: события
             + id: (number) - ID ставки
-            + status: (string) - статус ставки
-            + name: (string) - заголов ставки
+            + status: (string) - статус ставки (wait | win | lost)
+            + guest: (Object) - команда гостей
+                + id: 12 (number) - ID команды
+                + name: "Барселона" (string) - название команды
+                + logo: "//img.neverbet.com/team/barcelona.jpg" (string) - адрес к лого команды
+            + home: (Object) - команда гостей
+                + id: 12 (number) - ID команды
+                + name: "Барселона" (string) - название команды
+                + logo: "//img.neverbet.com/team/barcelona.jpg" (string) - адрес к лого команды
             + descr: (string) - текстовое описание ставки
             + ratio: (number) - коэф ставки
         + price: (number) - сумма ставки
@@ -3160,14 +3200,23 @@ HOST: http://api.neverbet.com/
                     "options":[
                         {
                             "id":32452,
+                            "home":{
+                                "id":12,
+                                "name":"Арсенал",
+                                "logo":"//img.neverbet.com/team/arsenal.jpg"
+                            },
+                            "guest":{
+                                "id":13,
+                                "name":"Барселона",
+                                "logo":"//img.neverbet.com/team/barcelona.jpg"
+                            },
                             "status":"wait",
-                            "name":"Арсенал - Барселона",
                             "descr":"Исход победа первой",
-                            "ratio":3.3
+                            "ratio":3.2
                         }
                     ],
                     "price":10000,
-                    "ratio":8.33
+                    "ratio":8.32
                 }
             ]
         }
@@ -3192,7 +3241,7 @@ HOST: http://api.neverbet.com/
 ### Удалить ставку  [DELETE /odds]
 
 + Arguments
-    + id: 12 (required, number) - ID ползователя 
+    + id: 12 (required, number) - ID ставки 
 
 + Request 
 
@@ -3218,8 +3267,16 @@ HOST: http://api.neverbet.com/
         + options: события
             + id: (number) - ID ставки
             + status: (string) - статус ставки
-            + name: (string) - заголов ставки
             + descr: (string) - текстовое описание ставки
+            + guest: (Object) - команда гостей
+                + id: 12 (number) - ID команды
+                + name: "Барселона" (string) - название команды
+                + logo: "//img.neverbet.com/team/barcelona.jpg" (string) - адрес к лого команды
+            + home: (Object) - команда гостей
+                + id: 12 (number) - ID команды
+                + name: "Барселона" (string) - название команды
+                + logo: "//img.neverbet.com/team/barcelona.jpg" (string) - адрес к лого команды
+            + ratio: (number) - коэф ставки
 
 + Parameters
     + offset: 10 (number) - отступ для выборки
@@ -3240,8 +3297,18 @@ HOST: http://api.neverbet.com/
                         {
                             "id":32452,
                             "status":"wait",
-                            "name":"Арсенал - Барселона",
+                            "home":{
+                                "id":12,
+                                "name":"Арсенал",
+                                "logo":"//img.neverbet.com/team/arsenal.jpg"
+                            },
+                            "guest":{
+                                "id":13,
+                                "name":"Барселона",
+                                "logo":"//img.neverbet.com/team/barcelona.jpg"
+                            },
                             "descr":"Исход победа первой",
+                            "ratio":3.2
                         }
                     ]
                 }
@@ -3265,7 +3332,15 @@ HOST: http://api.neverbet.com/
             + status: (string) - статус ставки
             + name: (string) - заголов ставки
             + descr: (string) - текстовое описание ставки
-            + ratio: (number) - общий коэф ставок
+            + guest: (Object) - команда гостей
+                + id: 12 (number) - ID команды
+                + name: "Барселона" (string) - название команды
+                + logo: "//img.neverbet.com/team/barcelona.jpg" (string) - адрес к лого команды
+            + home: (Object) - команда гостей
+                + id: 12 (number) - ID команды
+                + name: "Барселона" (string) - название команды
+                + logo: "//img.neverbet.com/team/barcelona.jpg" (string) - адрес к лого команды
+            + ratio: (number) - коэф ставки
         + ratio: (number) - общий коэф ставок
 
 + Parameters
@@ -3286,9 +3361,18 @@ HOST: http://api.neverbet.com/
                         {
                             "id":32452,
                             "status":"wait",
-                            "name":"Арсенал - Барселона",
+                            "home":{
+                                "id":12,
+                                "name":"Арсенал",
+                                "logo":"//img.neverbet.com/team/arsenal.jpg"
+                            },
+                            "guest":{
+                                "id":13,
+                                "name":"Барселона",
+                                "logo":"//img.neverbet.com/team/barcelona.jpg"
+                            },
                             "descr":"Исход победа первой",
-                            "ratio":3.3
+                            "ratio":3.2
                         }
                     ],
                     "ratio":3.3
@@ -3308,13 +3392,19 @@ HOST: http://api.neverbet.com/
     + opinions: (Array) - прогнозы
         + id: (number) - ID прогноза
         + dtime: (DateTime) - время и дата прогноза
-        + options: события
+        + guest: (Object) - команда гостей
+            + id: 12 (number) - ID команды
+            + name: "Барселона" (string) - название команды
+            + logo: "//img.neverbet.com/team/barcelona.jpg" (string) - адрес к лого команды
+        + home: (Object) - команда гостей
+            + id: 12 (number) - ID команды
+            + name: "Барселона" (string) - название команды
+            + logo: "//img.neverbet.com/team/barcelona.jpg" (string) - адрес к лого команды
+        + options: (Array) массив мнений по результатам матча
             + id: (number) - ID события
-            + status: (string) - статус ставки
-            + name: (string) - заголов ставки
-            + descr: (string) - текстовое описание ставки
-            + ratio: (number) - общий коэф ставок
-        + ratio: (number) - общий коэф ставок
+            + name: (string) - заголов мнения
+            + thumb: (string) - адрес к аватарке пользователя
+            + votes: (number) - всего голосов за это мнение 
 
 + Parameters
     + offset: 10 (number) - отступ для выборки
@@ -3322,24 +3412,46 @@ HOST: http://api.neverbet.com/
 + Response 200 (application/json)
 
         {
-            "total":23,
-            "exact":33,
-            "rating":400,
-            "reply":15,
-            "opinions":[
+            "rating": 400,
+            "exact": 33,
+            "reply": 15,
+            "opinions": [
                 {
                     "id": 56,
                     "dtime": "2016.05.15 12:22:13",
-                    "options":[
+                    "guest": {
+                        "logo": "//img.neverbet.com/team/barcelona.jpg",
+                        "name": "Барселона",
+                        "id": 13
+                    },
+                    "home": {
+                        "logo": "//img.neverbet.com/team/arsenal.jpg",
+                        "name": "Арсенал",
+                        "id": 12
+                    },
+                    "options": [
                         {
-                            "id":32452,
-                            "thumb":"//img.neverbet.com/user/u56.jpg",
-                            "name":"Арсенал - Барселона",
-                            "votes":33
+                            "thumb": "//img.neverbet.com/user/u56.jpg",
+                            "name": "Победа первых",
+                            "votes": 25,
+                            "id": 32452
+                        },
+                        {
+                            "thumb": "//img.neverbet.com/user/u56.jpg",
+                            "name": "Тотал больше 2.5",
+                            "votes": 17,
+                            "id": 32452
+                        },
+                        {
+                            "thumb": "//img.neverbet.com/user/u56.jpg",
+                            "name": "Победа вторых",
+                            "votes": 12,
+                            "id": 32452
                         }
                     ]
                 }
-            ]
+            ],
+            "total": 23
         }
         
         
